@@ -296,6 +296,22 @@ html,body{width:100%;min-height:100%;font-family:"Nunito",sans-serif;background:
 .cm-timer-txt{font-size:12px;color:#8b949e;text-align:center;margin-bottom:8px}
 .cm-timer-txt.urgent{color:#f85149;font-weight:800}
 
+
+/* LIVE SCOREBOARD */
+#scoreboard{background:#161b22;border:1px solid #30363d;border-radius:12px;overflow:hidden;margin-bottom:16px}
+#scoreboard-header{padding:10px 14px;background:var(--td,#1a1a2e);color:var(--ta,#ffd700);font-family:"Fredoka One",sans-serif;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+#scoreboard-body{padding:8px;display:flex;flex-direction:column;gap:4px;max-height:220px;overflow-y:auto}
+.sb-row{display:grid;grid-template-columns:24px 1fr auto auto;gap:8px;align-items:center;padding:6px 10px;background:#0d1117;border-radius:8px;font-size:12px}
+.sb-rank{color:#8b949e;font-weight:800;text-align:center}
+.sb-name{color:#c9d1d9;font-weight:700}
+.sb-board{color:#8b949e;font-size:11px}
+.sb-progress{display:flex;align-items:center;gap:6px}
+.sb-bar-wrap{width:60px;height:6px;background:#30363d;border-radius:6px;overflow:hidden}
+.sb-bar{height:100%;background:var(--ta,#ffd700);border-radius:6px;transition:width .5s}
+.sb-count{color:var(--ta,#ffd700);font-weight:800;font-size:11px;min-width:28px;text-align:right}
+.sb-won{color:#56d364;font-weight:800}
+#scoreboard.hidden{display:none}
+
 </style>
 
 </head>
@@ -354,7 +370,14 @@ html,body{width:100%;min-height:100%;font-family:"Nunito",sans-serif;background:
     <!-- BOARDS -->
     <div class="sec on" id="sec-boards">
       <div class="stitle">Player Boards <small>25 boards · 16 verbs each</small></div>
-      <div class="bpills" id="board-pills"></div>
+      <div id="scoreboard" class="hidden">
+  <div id="scoreboard-header">
+    <span>🏆 Live Scoreboard</span>
+    <span id="sb-room-label" style="font-size:12px;opacity:.7"></span>
+  </div>
+  <div id="scoreboard-body"></div>
+</div>
+<div class="bpills" id="board-pills"></div>
       <div class="bwrap" id="board-wrap"></div>
     </div>
 
@@ -385,6 +408,7 @@ html,body{width:100%;min-height:100%;font-family:"Nunito",sans-serif;background:
             <div class="players-list" id="players-list"></div>
           </div>
           <button class="bdraw" id="btn-draw" onclick="drawVerb()">🎲 Draw Verb</button>
+          <button class="bdraw" id="btn-repeat" onclick="repeatLastVerb()" style="background:linear-gradient(135deg,#1565C0,#0d47a1);margin-top:8px;font-size:16px;display:none">🔊 Repeat Pronunciation</button>
           <button class="sbtn" onclick="resetCaller()">↺ Reset Caller</button>
           <div class="dlist">
             <div class="dlhdr"><span>Already drawn</span><span id="drawn-count">0 / 80</span></div>
@@ -445,6 +469,13 @@ function copyRoomCode(){
     el.innerHTML='✅ Copied!';
     setTimeout(()=>{el.innerHTML=prev;},1500);
   }).catch(()=>alert('Room code: '+roomCode));
+}
+
+function repeatLastVerb(){
+  const verb = drawnVerbs[drawnVerbs.length-1];
+  if(!verb) return;
+  const vd = VERBS.find(v=>v[0]===verb);
+  if(vd) speakVerb(verb, vd[1], vd[2]);
 }
 
 function speakVerb(verb, past, pp){
@@ -584,6 +615,32 @@ function showLiveBar(){
   if(cd){document.getElementById('room-code-big').textContent=roomCode;cd.style.display='flex';}
 }
 
+function updateScoreboard(players){
+  const sb = document.getElementById('scoreboard');
+  const body = document.getElementById('scoreboard-body');
+  const label = document.getElementById('sb-room-label');
+  if(!sb || !body) return;
+  const arr = Object.values(players||{});
+  if(arr.length === 0){ sb.classList.add('hidden'); return; }
+  sb.classList.remove('hidden');
+  if(label) label.textContent = 'Room: ' + roomCode;
+  // Sort by marked count descending
+  arr.sort((a,b)=> (b.markedCount||0) - (a.markedCount||0));
+  body.innerHTML = arr.map((p,i)=>{
+    const pct = Math.round(((p.markedCount||0)/16)*100);
+    const rank = i===0 ? '🥇' : i===1 ? '🥈' : i===2 ? '🥉' : (i+1)+'';
+    return '<div class="sb-row">' +
+      '<span class="sb-rank">'+rank+'</span>' +
+      '<span class="sb-name">'+p.name+'</span>' +
+      '<span class="sb-board">Board '+(p.boardIdx+1)+'</span>' +
+      '<div class="sb-progress">' +
+        '<div class="sb-bar-wrap"><div class="sb-bar" style="width:'+pct+'%"></div></div>' +
+        '<span class="'+(p.won?'sb-won':'sb-count')+'">'+(p.won?'🏆 BINGO!':(p.markedCount||0)+'/16')+'</span>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
 function setupCallerListeners(){
   async function refresh(){
     if(!inRoom)return;
@@ -596,6 +653,8 @@ function setupCallerListeners(){
       if(cs)cs.textContent=count>0?count+' student(s) connected':'Waiting for students...';
       const pl=document.getElementById('players-list');
       if(pl)pl.innerHTML=Object.values(players).map(p=>'<div class="player-row"><span class="player-name">'+p.name+'</span><span class="player-board">Board '+(p.boardIdx+1)+'</span><span class="'+(p.won?'player-won':'player-score')+'">'+(p.won?'🏆 BINGO!':p.markedCount+'/16')+'</span></div>').join('');
+      // Update scoreboard for all
+      updateScoreboard(players);
     }catch(e){}
     setTimeout(refresh,4000);
   }
@@ -604,6 +663,17 @@ function setupCallerListeners(){
 
 function setupPlayerListeners(){
   let lastVerb=null;
+
+  // Poll scoreboard for players too
+  async function refreshScoreboard(){
+    if(!inRoom) return;
+    try{
+      const players = await fbGet('/rooms/'+roomCode+'/players');
+      updateScoreboard(players);
+    }catch(e){}
+    setTimeout(refreshScoreboard, 5000);
+  }
+  refreshScoreboard();
 
   // On join: immediately fetch ALL previously drawn verbs and unlock them silently
   async function syncPreviousVerbs(){
@@ -1798,6 +1868,9 @@ function drawVerb() {
   if (callerPool.length === 0) {
     document.getElementById('btn-draw').textContent = '↺ All drawn — Reset';
   }
+  // Show repeat button after first draw
+  const repeatBtn=document.getElementById('btn-repeat');
+  if(repeatBtn) repeatBtn.style.display='block';
   updateStats();
   // Flash verb + unlock cell (always)
   showVerbFlash(verb);
