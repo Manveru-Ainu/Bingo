@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html lang="en" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Irregular Verbs Bingo</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;min-height:100%;font-family:"Nunito",sans-serif;background:#0d1117;color:#e6edf3;overscroll-behavior:none}
+
+/* THEMES */
+.theme-classic{--td:#1a1a2e;--ta:#ffd700;--tad:#ffaa00;--tm:#1a472a;--tmd:#238636}
+.theme-ocean  {--td:#0c2340;--ta:#40c4ff;--tad:#0091ea;--tm:#0c3040;--tmd:#0288d1}
+.theme-purple {--td:#2d1b69;--ta:#ce93d8;--tad:#ab47bc;--tm:#1a0a30;--tmd:#7b1fa2}
+.theme-green  {--td:#1b3a1b;--ta:#69f0ae;--tad:#00c853;--tm:#0a2a0a;--tmd:#2e7d32}
+.theme-fire   {--td:#3e0a00;--ta:#ff6e40;--tad:#dd2c00;--tm:#3e1a00;--tmd:#e64a19}
+
+/* WELCOME */
+#ws{position:fixed;inset:0;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:1000;padding:24px;text-align:center;overflow-y:auto}
+#ws h1{font-family:"Fredoka One",sans-serif;font-size:clamp(26px,7vw,54px);color:#ffd700;margin-bottom:6px;text-shadow:0 0 30px rgba(255,215,0,.4);line-height:1.1}
+#ws .sub{font-size:clamp(12px,3vw,16px);color:#8b949e;margin-bottom:28px}
+.wcard{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:24px 28px;max-width:460px;width:100%;margin-bottom:18px}
+.wcard h3{font-size:15px;color:#ffd700;margin-bottom:14px;font-family:"Fredoka One",sans-serif;letter-spacing:.5px}
+.trow{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.08);gap:12px}
+.trow:last-child{border-bottom:none}
+.trow label{font-size:13px;color:#c9d1d9;text-align:left}
+.tog{position:relative;width:46px;height:24px;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0}
+.sld{position:absolute;inset:0;background:#30363d;border-radius:24px;cursor:pointer;transition:.3s}
+.sld:before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:white;border-radius:50%;transition:.3s}
+.tog input:checked+.sld{background:#ffd700}
+.tog input:checked+.sld:before{transform:translateX(22px);background:#1a1a2e}
+.theme-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:10px 0}
+.tb{width:34px;height:34px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:transform .15s,border-color .15s;touch-action:manipulation}
+.tb.on{border-color:white;transform:scale(1.18)}
+.btn-start{background:linear-gradient(135deg,#ffd700,#ffaa00);color:#1a1a2e;border:none;padding:15px 0;border-radius:50px;font-family:"Fredoka One",sans-serif;font-size:22px;cursor:pointer;box-shadow:0 8px 32px rgba(255,215,0,.3);width:100%;max-width:300px;margin-top:6px;touch-action:manipulation;display:block}
+
+/* APP */
+#app{display:none;flex-direction:column;min-height:100vh}
+#app.on{display:flex}
+.tnav{background:#161b22;border-bottom:1px solid #30363d;padding:9px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:200}
+.tnav h1{font-family:"Fredoka One",sans-serif;font-size:17px;color:var(--ta,#ffd700);white-space:nowrap;margin-right:auto}
+.nb{background:#21262d;color:#c9d1d9;border:1px solid #30363d;padding:6px 12px;border-radius:18px;font-family:"Nunito",sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:.15s;white-space:nowrap;touch-action:manipulation}
+.nb:active,.nb.on{background:var(--ta,#ffd700);color:#1a1a2e;border-color:var(--ta,#ffd700)}
+.main{flex:1;padding:18px 14px 60px;max-width:1400px;margin:0 auto;width:100%}
+.sec{display:none}.sec.on{display:block}
+.stitle{font-family:"Fredoka One",sans-serif;font-size:clamp(16px,4vw,24px);color:var(--ta,#ffd700);margin-bottom:16px}
+.stitle small{color:#8b949e;font-size:13px;font-weight:600;margin-left:8px;font-family:"Nunito",sans-serif}
+
+/* BOARD PILLS */
+.bpills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.bp{background:#21262d;border:2px solid #30363d;color:#8b949e;padding:5px 12px;border-radius:18px;font-size:11px;font-weight:700;cursor:pointer;transition:.15s;touch-action:manipulation}
+.bp.on{background:var(--ta,#ffd700);border-color:var(--ta,#ffd700);color:#1a1a2e}
+.bp.won{background:#238636;border-color:#238636;color:white}
+
+/* BOARD */
+.bwrap{max-width:880px;margin:0 auto}
+.bcard{background:#161b22;border:2px solid #30363d;border-radius:14px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.bhdr{background:var(--td,#1a1a2e);color:var(--ta,#ffd700);text-align:center;padding:14px;font-family:"Fredoka One",sans-serif;font-size:clamp(16px,4vw,24px);letter-spacing:2px}
+.bgrid{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:2px solid #30363d}
+.vc{display:flex;flex-direction:column;align-items:center;border:1px solid #21262d;cursor:pointer;position:relative;touch-action:manipulation;user-select:none;overflow:hidden;-webkit-user-select:none}
+.vc:nth-child(8n+1),.vc:nth-child(8n+4),.vc:nth-child(8n+6),.vc:nth-child(8n+7){background:#0d1117}
+.vc:not(:nth-child(8n+1)):not(:nth-child(8n+4)):not(:nth-child(8n+6)):not(:nth-child(8n+7)){background:#161b22}
+.vc.mk{background:var(--tm,#1a472a)!important}
+.vc.mk .vname{background:var(--tmd,#238636)}
+.vname{width:100%;text-align:center;font-weight:800;font-size:clamp(9px,1.8vw,13px);padding:6px 2px;letter-spacing:.5px;background:var(--td,#1a1a2e);color:white;transition:background .2s}
+.vimg{width:100%;padding:4px;display:flex;align-items:center;justify-content:center}
+.vimg svg{width:100%;height:clamp(48px,9vw,86px);display:block}
+.vmean{font-size:clamp(7px,1.3vw,10px);color:#8b949e;font-style:italic;padding:2px 4px;text-align:center;line-height:1.2}
+.vconj{width:100%;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #21262d}
+.cbox{padding:3px 4px;text-align:center}
+.cbox:first-child{border-right:1px solid #21262d}
+.clbl{color:#8b949e;font-weight:700;font-size:clamp(6px,1.1vw,9px);text-transform:uppercase;display:block}
+.cwrt{display:block;height:12px;border-bottom:1px solid #30363d}
+
+/* CHECK MARK OVERLAY */
+.vc.mk::after{content:"✓";position:absolute;top:2px;right:4px;font-size:14px;color:var(--ta,#ffd700);font-weight:900;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+
+/* WRITE SPACE */
+.wsp{padding:12px 16px;background:rgba(255,215,0,.04);border-top:2px dashed var(--ta,#ffd700)}
+.wsptitle{font-size:10px;font-weight:800;color:#f60;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;text-align:center}
+.wlines{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wch{font-size:10px;font-weight:800;color:#1a1a2e;text-align:center;padding:4px;background:#ffe080;border-radius:4px;margin-bottom:5px}
+.wl{border-bottom:1px solid #30363d;height:20px;margin-bottom:5px}
+.binfo{display:flex;gap:8px;justify-content:center;align-items:center;padding:8px;flex-wrap:wrap}
+.bst{font-size:11px;color:#8b949e;background:#21262d;padding:3px 10px;border-radius:10px}
+.bst strong{color:var(--ta,#ffd700)}
+.rbtn{background:#30363d;border:1px solid #f85149;color:#f85149;padding:5px 14px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;touch-action:manipulation}
+
+/* BINGO OVERLAY */
+#bingo-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:600;align-items:center;justify-content:center;flex-direction:column;gap:20px}
+#bingo-ov.on{display:flex}
+.btxt{font-family:"Fredoka One",sans-serif;font-size:clamp(56px,18vw,120px);color:#ffd700;text-shadow:0 0 60px rgba(255,215,0,.9);animation:pp 1s infinite}
+@keyframes pp{0%,100%{transform:scale(1) rotate(-2deg)}50%{transform:scale(1.06) rotate(2deg)}}
+.bsub{color:#c9d1d9;font-size:16px;text-align:center;padding:0 20px}
+.bcls{background:#ffd700;color:#1a1a2e;border:none;padding:12px 36px;border-radius:30px;font-family:"Fredoka One",sans-serif;font-size:18px;cursor:pointer;touch-action:manipulation;margin-top:8px}
+
+/* CALLER */
+.clayout{display:grid;grid-template-columns:1fr 300px;gap:18px;align-items:start}
+@media(max-width:660px){.clayout{grid-template-columns:1fr}}
+.cdisp{background:#161b22;border:2px solid #30363d;border-radius:14px;overflow:hidden;text-align:center}
+.cdhdr{background:var(--td,#1a1a2e);padding:10px;font-size:12px;color:#8b949e;letter-spacing:.5px}
+.cbigv{font-family:"Fredoka One",sans-serif;font-size:clamp(32px,8vw,60px);color:var(--ta,#ffd700);padding:16px 16px 8px}
+.cbigi{padding:0 32px 8px}
+.cbigi svg{width:100%;max-height:160px}
+.cbigm{color:#8b949e;font-style:italic;font-size:14px;padding-bottom:8px;min-height:20px}
+.cconj{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#30363d;border-top:1px solid #30363d}
+.ccell{background:#161b22;padding:10px}
+.cclbl{font-size:10px;color:#8b949e;text-transform:uppercase;font-weight:700;margin-bottom:3px}
+.ccval{font-size:16px;font-weight:800;color:#c9d1d9}
+.cex{background:#0d1117;padding:10px 14px;font-size:12px;color:#8b949e;font-style:italic;border-top:1px solid #30363d;min-height:40px;line-height:1.4}
+.cex strong{color:var(--ta,#ffd700);font-style:normal}
+.cctrls{display:flex;flex-direction:column;gap:10px}
+.bdraw{background:linear-gradient(135deg,var(--ta,#ffd700),var(--tad,#ffaa00));color:#1a1a2e;border:none;padding:14px;border-radius:12px;font-family:"Fredoka One",sans-serif;font-size:19px;cursor:pointer;width:100%;touch-action:manipulation;transition:transform .1s;box-shadow:0 4px 16px rgba(255,215,0,.2)}
+.bdraw:active{transform:scale(.97)}
+.bdraw:disabled{opacity:.35;cursor:default}
+.dlist{background:#161b22;border:1px solid #30363d;border-radius:10px;overflow:hidden}
+.dlhdr{padding:8px 12px;font-size:11px;font-weight:700;color:#8b949e;border-bottom:1px solid #30363d;display:flex;justify-content:space-between;align-items:center}
+.dlbody{max-height:280px;overflow-y:auto;padding:8px;display:flex;flex-wrap:wrap;gap:5px}
+.dchip{background:#21262d;color:#c9d1d9;padding:3px 9px;border-radius:8px;font-size:11px;font-weight:700}
+.sbtn{background:#21262d;border:1px solid #30363d;color:#8b949e;padding:7px 12px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;touch-action:manipulation;width:100%}
+.sbtn:active{background:#30363d}
+
+/* CARDS GRID */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:10px}
+.ccard{background:#161b22;border:1px solid #30363d;border-radius:10px;overflow:hidden}
+.cchdr{background:var(--td,#1a1a2e);color:var(--ta,#ffd700);text-align:center;padding:7px;font-family:"Fredoka One",sans-serif;font-size:13px}
+.ccimg{padding:5px;background:#0d1117}
+.ccimg svg{width:100%;height:65px;display:block}
+.ccm{font-size:8px;color:#8b949e;text-align:center;font-style:italic;padding:2px 4px}
+.ccconj{padding:5px 7px}
+.ccrw{display:grid;grid-template-columns:44px 1fr;gap:3px;margin-bottom:2px;align-items:center}
+.cclb{font-size:9px;font-weight:800;color:#8b949e;text-transform:uppercase}
+.ccv{font-size:10px;font-weight:800;color:#c9d1d9;background:#21262d;padding:2px 6px;border-radius:4px}
+.ccex{padding:3px 7px 6px;font-size:8px;color:#6e7681;font-style:italic;border-top:1px solid #21262d;line-height:1.3}
+
+/* VERB LIST */
+.vlgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:4px}
+.vrow{display:grid;grid-template-columns:26px 1fr 1fr 1fr;background:#161b22;border:1px solid #21262d;border-radius:6px;overflow:hidden;font-size:11px}
+.vrow>div{padding:5px 7px;border-right:1px solid #21262d}
+.vrow>div:last-child{border-right:none}
+.vrn{background:var(--td,#1a1a2e);color:var(--ta,#ffd700);font-weight:800;text-align:center;font-size:10px}
+.vrv{font-weight:800;color:#e6edf3}
+.vrm{color:#8b949e;font-style:italic;font-size:10px}
+.vrp{color:#79c0ff;font-weight:700}
+.vrpp{color:#56d364;font-weight:700}
+
+/* STATS */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.scard{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:18px;text-align:center}
+.snum{font-family:"Fredoka One",sans-serif;font-size:34px;color:var(--ta,#ffd700)}
+.slbl{font-size:11px;color:#8b949e;margin-top:3px}
+.flist{background:#161b22;border:1px solid #30363d;border-radius:12px;overflow:hidden}
+.frow{display:grid;grid-template-columns:1fr 110px 36px;align-items:center;padding:7px 12px;border-bottom:1px solid #21262d;gap:8px;font-size:11px}
+.frow:last-child{border-bottom:none}
+.fbw{background:#21262d;border-radius:8px;height:7px;overflow:hidden}
+.fb{height:100%;background:var(--ta,#ffd700);border-radius:8px}
+.fc{font-size:10px;color:#8b949e;text-align:right}
+.fverb{font-weight:700;color:#c9d1d9}
+
+/* PRINT */
+@media print{
+  @page{size:A4 portrait;margin:8mm}
+  body{background:white!important;color:black!important}
+  #ws{display:none!important}
+  #app{display:block!important}
+  .tnav,.bpills,.binfo,#bingo-ov,#sec-caller,#sec-cards,#sec-verblist,#sec-stats{display:none!important}
+  #sec-boards{display:block!important}
+  .bwrap{max-width:100%}
+  .bcard{box-shadow:none!important;border:2px solid #333!important;border-radius:6px!important;page-break-after:always;break-after:page;height:277mm;display:flex;flex-direction:column}
+  .bcard:last-child{page-break-after:avoid;break-after:avoid}
+  .bhdr{background:#1a1a2e!important;color:#ffd700!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-size:20px!important;padding:12px!important;flex-shrink:0}
+  .bgrid{flex:1;display:grid!important;grid-template-columns:repeat(4,1fr)!important;grid-template-rows:repeat(4,1fr)!important}
+  .vc{background:#f8f8f8!important;border:1px solid #ddd!important}
+  .vc:nth-child(8n+1),.vc:nth-child(8n+4),.vc:nth-child(8n+6),.vc:nth-child(8n+7){background:#eef!important}
+  .vc.mk{background:#d4edda!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .vname{background:#1a1a2e!important;color:white!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-size:13px!important;padding:7px!important}
+  .vimg svg{height:78px!important}
+  .vmean{color:#555!important}
+  .clbl{color:#666!important}
+  .wsp{flex-shrink:0;padding:10px 14px!important;background:#fffbf0!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wsptitle{font-size:10px!important;color:#f60!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wch{font-size:10px!important;background:#ffe080!important;color:#1a1a2e!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wl{height:18px!important;border-bottom:1px solid #999!important}
+  .rbtn{display:none!important}
+}
+@media(max-width:500px){
+  .tnav{gap:5px;padding:8px 10px}
+  .nb{padding:5px 9px;font-size:11px}
+  .main{padding:12px 10px 40px}
+}
+
+/* CONJUGATION MODAL */
+#conj-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:800;align-items:center;justify-content:center;padding:16px}
+#conj-modal.on{display:flex}
+.cm-box{background:#161b22;border:2px solid var(--ta,#ffd700);border-radius:20px;padding:28px 24px;max-width:400px;width:100%;text-align:center;position:relative}
+.cm-verb{font-family:"Fredoka One",sans-serif;font-size:36px;color:var(--ta,#ffd700);margin-bottom:4px}
+.cm-meaning{font-size:12px;color:#8b949e;font-style:italic;margin-bottom:14px}
+.cm-svg{margin:0 auto 12px;max-width:120px}.cm-svg svg{width:100%;height:90px}
+.cm-row{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;text-align:left}
+.cm-lbl{font-size:11px;font-weight:800;color:#8b949e;text-transform:uppercase;letter-spacing:.4px}
+.cm-inp{background:#0d1117;border:2px solid #30363d;color:#e6edf3;padding:10px 14px;border-radius:10px;font-size:15px;font-family:"Nunito",sans-serif;font-weight:700;width:100%;outline:none;transition:border-color .2s}
+.cm-inp:focus{border-color:var(--ta,#ffd700)}
+.cm-inp.ok{border-color:#238636;background:#0a1f0a}
+.cm-inp.err{border-color:#f85149;background:#1f0a0a;animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.cm-hint{font-size:11px;min-height:16px;margin-top:2px;font-weight:700}
+.cm-hint.ok{color:#56d364}.cm-hint.err{color:#f85149}
+.cm-tries{font-size:11px;color:#8b949e;margin-bottom:8px}
+.cm-btn{background:linear-gradient(135deg,var(--ta,#ffd700),var(--tad,#ffaa00));color:#1a1a2e;border:none;padding:12px 0;border-radius:12px;font-family:"Fredoka One",sans-serif;font-size:17px;cursor:pointer;width:100%;touch-action:manipulation;margin-top:4px}
+.cm-btn:disabled{opacity:.4;cursor:default}
+.cm-skip{background:transparent;border:1px solid #30363d;color:#8b949e;padding:8px 0;border-radius:10px;font-size:12px;cursor:pointer;width:100%;margin-top:8px;touch-action:manipulation}
+.cm-close{position:absolute;top:10px;right:14px;background:none;border:none;color:#8b949e;font-size:20px;cursor:pointer;touch-action:manipulation}
+/* SENTENCE CHECKER */
+.sent-panel{padding:12px 14px;background:rgba(255,215,0,.04);border-top:2px dashed var(--ta,#ffd700)}
+.sp-title{font-size:11px;font-weight:800;color:#f60;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;text-align:center}
+.sp-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sp-col-hdr{font-size:10px;font-weight:800;color:#1a1a2e;text-align:center;padding:5px;background:#ffe080;border-radius:6px;margin-bottom:8px}
+.sp-entry{display:flex;flex-direction:column;gap:3px;margin-bottom:8px}
+.sp-inp-row{display:flex;gap:5px;align-items:center}
+.sp-inp{background:#0d1117;border:1px solid #30363d;color:#e6edf3;padding:7px 9px;border-radius:8px;font-size:11px;font-family:"Nunito",sans-serif;width:100%;outline:none}
+.sp-inp:focus{border-color:var(--ta,#ffd700)}
+.sp-cbtn{background:var(--ta,#ffd700);color:#1a1a2e;border:none;padding:7px 9px;border-radius:8px;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0;touch-action:manipulation}
+.sp-cbtn:disabled{opacity:.5;cursor:default}
+.sp-fb{font-size:10px;min-height:14px;font-weight:700;padding:0 2px;line-height:1.3}
+.sp-fb.ok{color:#56d364}.sp-fb.err{color:#f85149}.sp-fb.loading{color:#8b949e}
+
+
+/* MULTIPLAYER */
+#room-screen{display:flex;position:fixed;inset:0;background:linear-gradient(135deg,#1a1a2e,#0f3460);z-index:900;align-items:center;justify-content:center;padding:20px;flex-direction:column;gap:16px;text-align:center}
+#room-screen.on{display:flex}
+.rs-title{font-family:"Fredoka One",sans-serif;font-size:clamp(22px,6vw,40px);color:#ffd700}
+.rs-sub{font-size:13px;color:#8b949e;margin-top:-8px}
+.rs-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:18px;padding:22px 26px;max-width:420px;width:100%}
+.rs-card h3{font-family:"Fredoka One",sans-serif;font-size:16px;color:#ffd700;margin-bottom:14px}
+.rs-inp{background:#0d1117;border:2px solid #30363d;color:#e6edf3;padding:11px 14px;border-radius:10px;font-size:15px;font-family:"Nunito",sans-serif;font-weight:700;width:100%;outline:none;margin-bottom:10px;text-align:center;letter-spacing:2px;text-transform:uppercase}
+.rs-inp:focus{border-color:#ffd700}
+.rs-btn{background:linear-gradient(135deg,#ffd700,#ffaa00);color:#1a1a2e;border:none;padding:12px 0;border-radius:12px;font-family:"Fredoka One",sans-serif;font-size:18px;cursor:pointer;width:100%;touch-action:manipulation;margin-bottom:8px}
+.rs-btn.secondary{background:#21262d;color:#c9d1d9;border:1px solid #30363d;font-size:15px}
+.rs-or{color:#8b949e;font-size:12px;margin:4px 0}
+.rs-err{color:#f85149;font-size:12px;min-height:16px;margin-top:4px}
+/* LIVE INDICATOR */
+.live-bar{background:#161b22;border-bottom:1px solid #30363d;padding:6px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#ef5350;animation:blink 1s infinite}
+.live-dot.green{background:#56d364;animation:none}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.live-room{color:#ffd700;font-weight:800}
+.live-role{color:#8b949e}
+.live-verb-announce{background:#1a472a;border:1px solid #238636;border-radius:8px;padding:6px 12px;color:#56d364;font-weight:800;font-size:12px;display:none}
+.live-verb-announce.on{display:inline-block}
+.live-players{color:#8b949e;margin-left:auto}
+/* CALLER LIVE CONTROLS */
+.caller-live-panel{background:#0d1117;border:1px solid #238636;border-radius:10px;padding:12px;margin-bottom:12px;text-align:center}
+.clp-title{font-size:11px;color:#56d364;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.clp-status{font-size:12px;color:#8b949e;margin-top:6px}
+/* PLAYERS PANEL */
+.players-panel{background:#161b22;border:1px solid #30363d;border-radius:10px;overflow:hidden;margin-top:10px}
+.players-header{padding:8px 12px;font-size:11px;font-weight:800;color:#8b949e;border-bottom:1px solid #30363d;text-transform:uppercase}
+.players-list{padding:8px;display:flex;flex-direction:column;gap:4px;max-height:200px;overflow-y:auto}
+.player-row{display:flex;align-items:center;justify-content:space-between;padding:5px 8px;background:#0d1117;border-radius:6px;font-size:12px}
+.player-name{color:#c9d1d9;font-weight:700}
+.player-board{color:#8b949e;font-size:11px}
+.player-score{color:#ffd700;font-weight:800}
+.player-won{color:#56d364}
+
+
+/* LOCKED CELLS */
+.vc.locked{opacity:.4;cursor:not-allowed}
+.vc.locked .vname{background:#30363d}
+/* VERB FLASH */
+#verb-flash{display:none;position:fixed;inset:0;z-index:900;background:linear-gradient(135deg,var(--td,#1a1a2e),#0f3460);align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center}
+#verb-flash.on{display:flex}
+#vf-verb{font-family:"Fredoka One",sans-serif;font-size:clamp(52px,18vw,110px);color:var(--ta,#ffd700);text-shadow:0 0 60px rgba(255,215,0,.6)}
+#vf-meaning{font-size:clamp(13px,3vw,20px);color:#8b949e;font-style:italic}
+#vf-sub{font-size:clamp(12px,3vw,16px);font-weight:700}
+#vf-bar{width:200px;height:6px;background:#30363d;border-radius:6px;overflow:hidden}
+#vf-bar-fill{height:100%;background:var(--ta,#ffd700);border-radius:6px}
+/* SENTENCE PANEL LOCK */
+.sent-panel.locked-panel{opacity:.35;pointer-events:none}
+.sent-lock-msg{text-align:center;font-size:11px;color:#8b949e;padding:6px;font-style:italic}
+/* ROOM CODE IN NAV */
+#room-code-display{display:none;background:var(--ta,#ffd700);color:#1a1a2e;padding:5px 14px;border-radius:20px;font-family:"Fredoka One",sans-serif;font-size:15px;letter-spacing:2px;cursor:pointer;align-items:center;gap:4px;flex-shrink:0}
+
+
+/* Block browser translation */
+.notranslate { font-family: inherit; }
+
+
+/* CONJUGATION TIMER */
+.cm-timer-bar{width:100%;height:6px;background:#30363d;border-radius:6px;overflow:hidden;margin-bottom:12px}
+.cm-timer-fill{height:100%;background:#ffd700;border-radius:6px;transition:width linear}
+.cm-timer-txt{font-size:12px;color:#8b949e;text-align:center;margin-bottom:8px}
+.cm-timer-txt.urgent{color:#f85149;font-weight:800}
+
+</style>
+
+</head>
+<body class="theme-classic">
+
+<!-- WELCOME SCREEN -->
+<div id="ws">
+  <h1>🎲 Irregular Verbs Bingo</h1>
+  <p class="sub">80 irregular verbs · 25 boards · Interactive game</p>
+
+  <div class="wcard">
+    <h3>⚙️ Game Options</h3>
+    <div class="trow">
+      <label>Show Spanish meanings under each verb</label>
+      <label class="tog"><input type="checkbox" id="opt-meanings" checked><span class="sld"></span></label>
+    </div>
+    <div class="trow">
+      <label>Show conjugations (Past / Participle) on boards</label>
+      <label class="tog"><input type="checkbox" id="opt-conj"><span class="sld"></span></label>
+    </div>
+    <div class="trow">
+      <label>Show example sentences on caller cards</label>
+      <label class="tog"><input type="checkbox" id="opt-examples" checked><span class="sld"></span></label>
+    </div>
+  </div>
+
+  <div class="wcard">
+    <h3>🎨 Color Theme</h3>
+    <div class="theme-row">
+      <div class="tb on" style="background:linear-gradient(135deg,#1a1a2e,#ffd700)" data-theme="classic" title="Classic"></div>
+      <div class="tb" style="background:linear-gradient(135deg,#0c2340,#40c4ff)" data-theme="ocean" title="Ocean"></div>
+      <div class="tb" style="background:linear-gradient(135deg,#2d1b69,#ce93d8)" data-theme="purple" title="Purple"></div>
+      <div class="tb" style="background:linear-gradient(135deg,#1b3a1b,#69f0ae)" data-theme="green" title="Green"></div>
+      <div class="tb" style="background:linear-gradient(135deg,#3e0a00,#ff6e40)" data-theme="fire" title="Fire"></div>
+    </div>
+  </div>
+
+  <button class="btn-start" id="btn-start">▶ &nbsp;Start Game</button>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <nav class="tnav">
+    <h1>🎲 Irregular Verbs Bingo</h1>
+    <div id="room-code-display" onclick="copyRoomCode()">🔑 <span id="room-code-big"></span></div>
+    <button class="nb on" onclick="showSec('boards')">📋 Boards</button>
+    <button class="nb" onclick="showSec('caller')">🎙 Caller</button>
+    <button class="nb" onclick="showSec('cards')">🃏 All Cards</button>
+    <button class="nb" onclick="showSec('verblist')">📚 Verbs</button>
+    <button class="nb" onclick="showSec('stats')">📊 Stats</button>
+    <button class="nb" onclick="window.print()">🖨</button>
+  </nav>
+
+  <div class="main">
+
+    <!-- BOARDS -->
+    <div class="sec on" id="sec-boards">
+      <div class="stitle">Player Boards <small>25 boards · 16 verbs each</small></div>
+      <div class="bpills" id="board-pills"></div>
+      <div class="bwrap" id="board-wrap"></div>
+    </div>
+
+    <!-- CALLER -->
+    <div class="sec" id="sec-caller">
+      <div class="stitle">🎙 Caller Panel <small id="caller-count">0 / 80 drawn</small></div>
+      <div class="clayout">
+        <div>
+          <div class="cdisp" id="caller-display">
+            <div class="cdhdr">Draw a verb to begin</div>
+            <div class="cbigv" id="cd-verb">—</div>
+            <div class="cbigi" id="cd-img"></div>
+            <div class="cbigm" id="cd-meaning"></div>
+            <div class="cconj">
+              <div class="ccell"><div class="cclbl">Past Simple</div><div class="ccval" id="cd-past">—</div></div>
+              <div class="ccell"><div class="cclbl">Past Participle</div><div class="ccval" id="cd-pp">—</div></div>
+            </div>
+            <div class="cex" id="cd-ex">Hit <strong>Draw Verb</strong> to start!</div>
+          </div>
+        </div>
+        <div class="cctrls">
+          <div class="caller-live-panel" id="caller-live-panel" style="display:none">
+            <div class="clp-title">🟢 Live Room Active</div>
+            <div class="clp-status" id="clp-status">Waiting for players...</div>
+          </div>
+          <div class="players-panel" id="players-panel" style="display:none">
+            <div class="players-header">👥 Connected Players</div>
+            <div class="players-list" id="players-list"></div>
+          </div>
+          <button class="bdraw" id="btn-draw" onclick="drawVerb()">🎲 Draw Verb</button>
+          <button class="sbtn" onclick="resetCaller()">↺ Reset Caller</button>
+          <div class="dlist">
+            <div class="dlhdr"><span>Already drawn</span><span id="drawn-count">0 / 80</span></div>
+            <div class="dlbody" id="drawn-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALL CARDS -->
+    <div class="sec" id="sec-cards">
+      <div class="stitle">🃏 All Caller Cards <small>80 verbs</small></div>
+      <div class="cgrid" id="cards-container"></div>
+    </div>
+
+    <!-- VERB LIST -->
+    <div class="sec" id="sec-verblist">
+      <div class="stitle">📚 80 Irregular Verbs <small>alphabetical order</small></div>
+      <div class="vlgrid" id="verblist-container"></div>
+    </div>
+
+    <!-- STATS -->
+    <div class="sec" id="sec-stats">
+      <div class="stitle">📊 Game Statistics</div>
+      <div class="sgrid" id="stats-grid"></div>
+      <div class="stitle" style="font-size:16px;margin-top:8px">Most frequent verbs across all boards</div>
+      <div class="flist" id="freq-list"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BINGO OVERLAY -->
+<div id="bingo-ov">
+  <div class="btxt">BINGO!</div>
+  <div class="bsub" id="bingo-msg"></div>
+  <button class="bcls" onclick="document.getElementById('bingo-ov').classList.remove('on')">🎉 Continue Playing</button>
+</div>
+
+<script>
+// ═══ FIREBASE REST API ══════════════════════════════
+const FB_URL="https://bingo-irr-verbs-default-rtdb.firebaseio.com";
+async function fbSet(path,data){const r=await fetch(FB_URL+path+'.json',{method:'PUT',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify(data)});if(!r.ok)throw new Error('FB '+r.status);return r.json();}
+async function fbUpdate(path,data){const r=await fetch(FB_URL+path+'.json',{method:'PATCH',headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify(data)});if(!r.ok)throw new Error('FB '+r.status);return r.json();}
+async function fbGet(path){const r=await fetch(FB_URL+path+'.json');if(!r.ok)throw new Error('FB '+r.status);return r.json();}
+
+// ═══ MULTIPLAYER STATE ═══════════════════════════════
+let myRole=null,myName='',roomCode='',myBoardIdx=0,inRoom=false;
+function sanitizeKey(s){return s.replace(/[^a-zA-Z0-9_-]/g,'_').substring(0,20);}
+function genCode(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';return Array.from({length:5},()=>c[Math.floor(Math.random()*c.length)]).join('');}
+
+function playOffline(){document.getElementById('room-screen').style.display='none';document.getElementById('ws').style.display='flex';}
+
+function copyRoomCode(){
+  navigator.clipboard.writeText(roomCode).then(()=>{
+    const el=document.getElementById('room-code-display');
+    const prev=el.innerHTML;
+    el.innerHTML='✅ Copied!';
+    setTimeout(()=>{el.innerHTML=prev;},1500);
+  }).catch(()=>alert('Room code: '+roomCode));
+}
+
+function speakVerb(verb, past, pp){
+  if(!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  // Speak: verb name, then past, then past participle
+  const utterances = [
+    new SpeechSynthesisUtterance(verb),
+    new SpeechSynthesisUtterance('Past simple: ' + past),
+    new SpeechSynthesisUtterance('Past participle: ' + pp)
+  ];
+  utterances.forEach(u=>{
+    u.lang = 'en-US';
+    u.rate = 0.85;
+    u.pitch = 1;
+    u.volume = 1;
+  });
+  // Chain utterances
+  utterances[0].onend = ()=> window.speechSynthesis.speak(utterances[1]);
+  utterances[1].onend = ()=> window.speechSynthesis.speak(utterances[2]);
+  window.speechSynthesis.speak(utterances[0]);
+}
+
+function showVerbFlash(verb){
+  const vd=VERBS.find(v=>v[0]===verb);
+  const flash=document.getElementById('verb-flash');
+  document.getElementById('vf-verb').textContent=verb;
+  document.getElementById('vf-meaning').textContent=vd?vd[3]:'';
+  // Speak the verb aloud — only for caller
+  if(vd && myRole === 'caller') speakVerb(verb, vd[1], vd[2]);
+  // Caller has no board — only show board hint to players
+  const sub=document.getElementById('vf-sub');
+  if(myRole==='caller'){
+    sub.textContent='📢 Announce this verb to your students!';
+    sub.style.color='#ffd700';
+  } else {
+    const isOnBoard=myBoardIdx>=0&&BOARDS[myBoardIdx]&&BOARDS[myBoardIdx].includes(verb);
+    sub.textContent=isOnBoard?"✅ It's on your board! Find it and mark it.":"❌ Not on your board this time.";
+    sub.style.color=isOnBoard?'#56d364':'#f85149';
+  }
+  const bar=document.getElementById('vf-bar-fill');
+  bar.style.transition='none';bar.style.width='100%';
+  flash.classList.add('on');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{bar.style.transition='width 3.5s linear';bar.style.width='0%';}));
+  const ann=document.getElementById('live-verb-announce');
+  if(ann){ann.textContent='🔔 '+verb;ann.style.display='inline-block';setTimeout(()=>{ann.style.display='none';},4000);}
+  setTimeout(()=>flash.classList.remove('on'),3500);
+}
+
+function unlockCell(verb){
+  for(let b=0;b<25;b++){const c=document.getElementById('cell-'+b+'-'+verb);if(c)c.classList.remove('locked');}
+}
+
+async function createRoom(){
+  const name=document.getElementById('caller-name-inp').value.trim();
+  const errEl=document.getElementById('create-err');
+  if(!name){errEl.textContent='Please enter your name.';return;}
+  const btn=event.target;
+  btn.disabled=true;btn.textContent='Creating...';errEl.textContent='';
+  try{
+    const code=genCode();
+    await fbSet('/rooms/'+code,{code,callerName:name,status:'waiting',currentVerb:null,drawnVerbs:{},createdAt:Date.now(),players:{}});
+    myRole='caller';myName=name;roomCode=code;inRoom=true;
+    enterApp('caller');setupCallerListeners();showLiveBar();
+    alert('Room created!\n\nShare this code with your students:\n\n🔑  '+code);
+  }catch(e){
+    errEl.textContent='Error: '+e.message;
+    btn.disabled=false;btn.textContent='Create New Game Room';
+  }
+}
+
+async function joinRoom(){
+  const name=document.getElementById('player-name-inp').value.trim();
+  const code=document.getElementById('room-code-inp').value.trim().toUpperCase();
+  const errEl=document.getElementById('join-err');
+  if(!name){errEl.textContent='Please enter your name.';return;}
+  if(code.length<4){errEl.textContent='Enter the room code.';return;}
+  const btn=event.target;
+  btn.disabled=true;btn.textContent='Joining...';errEl.textContent='';
+  try{
+    const room=await fbGet('/rooms/'+code);
+    if(!room){errEl.textContent='Room not found. Check the code.';btn.disabled=false;btn.textContent='Join Game';return;}
+    const taken=Object.values(room.players||{}).map(p=>p.boardIdx);
+    const avail=Array.from({length:25},(_,i)=>i).filter(i=>!taken.includes(i));
+    const bIdx=avail.length>0?avail[Math.floor(Math.random()*avail.length)]:Math.floor(Math.random()*25);
+    await fbSet('/rooms/'+code+'/players/'+sanitizeKey(name),{name,boardIdx:bIdx,markedCount:0,won:false,joinedAt:Date.now()});
+    myRole='player';myName=name;roomCode=code;myBoardIdx=bIdx;inRoom=true;
+    enterApp('player');setupPlayerListeners();showLiveBar();
+    setTimeout(()=>showBoardNum(bIdx),300);
+  }catch(e){
+    errEl.textContent='Error: '+e.message;
+    btn.disabled=false;btn.textContent='Join Game';
+  }
+}
+
+function enterApp(role){
+  document.getElementById('room-screen').style.display='none';
+  document.getElementById('ws').style.display='none';
+  document.getElementById('app').classList.add('on');
+  showMeanings=true;showConj=false;showExamples=true;
+  buildBoards();buildCards();buildVerbList();buildStats();
+  if(role==='player'){
+    // Lock player to their assigned board — hide all pills
+    setTimeout(()=>{
+      document.querySelectorAll('.bp').forEach(p=>p.style.display='none');
+    },150);
+  }
+  if(role==='caller'){
+    // Caller sees all cells unlocked (they control the game)
+    setTimeout(()=>{
+      document.querySelectorAll('.vc.locked').forEach(c=>c.classList.remove('locked'));
+      document.querySelectorAll('.sent-panel.locked-panel').forEach(p=>{
+        p.classList.remove('locked-panel');
+        const m=p.querySelector('.sent-lock-msg');if(m)m.style.display='none';
+      });
+    },100);
+    document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+    document.getElementById('sec-caller').classList.add('on');
+    document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.nb')[1].classList.add('on');
+    const clp=document.getElementById('caller-live-panel');
+    const pp=document.getElementById('players-panel');
+    if(clp)clp.style.display='block';
+    if(pp)pp.style.display='block';
+  }
+}
+
+function showLiveBar(){
+  const bar=document.getElementById('live-bar');
+  if(bar)bar.style.display='flex';
+  const dot=document.getElementById('live-dot');
+  if(dot)dot.style.background='#56d364';
+  document.getElementById('live-room-code').textContent=roomCode;
+  document.getElementById('live-role-label').textContent=myRole==='caller'?'🎙 Caller':'🎮 Player — Board '+(myBoardIdx+1);
+  // Show code in nav
+  const cd=document.getElementById('room-code-display');
+  if(cd){document.getElementById('room-code-big').textContent=roomCode;cd.style.display='flex';}
+}
+
+function setupCallerListeners(){
+  async function refresh(){
+    if(!inRoom)return;
+    try{
+      const players=await fbGet('/rooms/'+roomCode+'/players')||{};
+      const count=Object.keys(players).length;
+      const pc=document.getElementById('live-players-count');
+      if(pc)pc.textContent=count+' player'+(count!==1?'s':'')+' connected';
+      const cs=document.getElementById('clp-status');
+      if(cs)cs.textContent=count>0?count+' student(s) connected':'Waiting for students...';
+      const pl=document.getElementById('players-list');
+      if(pl)pl.innerHTML=Object.values(players).map(p=>'<div class="player-row"><span class="player-name">'+p.name+'</span><span class="player-board">Board '+(p.boardIdx+1)+'</span><span class="'+(p.won?'player-won':'player-score')+'">'+(p.won?'🏆 BINGO!':p.markedCount+'/16')+'</span></div>').join('');
+    }catch(e){}
+    setTimeout(refresh,4000);
+  }
+  refresh();
+}
+
+function setupPlayerListeners(){
+  let lastVerb=null;
+
+  // On join: immediately fetch ALL previously drawn verbs and unlock them silently
+  async function syncPreviousVerbs(){
+    try{
+      const drawnMap = await fbGet('/rooms/'+roomCode+'/drawnVerbs');
+      if(drawnMap){
+        Object.keys(drawnMap).forEach(verb=>{
+          unlockCell(verb);  // unlock silently, no flash for old verbs
+        });
+        console.log('Synced', Object.keys(drawnMap).length, 'previously drawn verbs');
+      }
+      // Also get the current verb
+      const current = await fbGet('/rooms/'+roomCode+'/currentVerb');
+      if(current) lastVerb = current;
+    }catch(e){}
+  }
+  syncPreviousVerbs();
+
+  async function checkVerb(){
+    if(!inRoom)return;
+    try{
+      const verb=await fbGet('/rooms/'+roomCode+'/currentVerb');
+      if(verb&&verb!==lastVerb){
+        lastVerb=verb;
+        showVerbFlash(verb);  // only flash NEW verbs drawn after joining
+        unlockCell(verb);
+      }
+    }catch(e){}
+    setTimeout(checkVerb,3000);
+  }
+  checkVerb();
+}
+
+// ═══ MAIN GAME CODE ══════════════════════════════════
+
+// ===== DATA =====
+const VERBS = [["ARISE", "arose", "arisen", "to come into existence or appear"], ["AWAKE", "awoke", "awoken", "to stop sleeping"], ["BE", "was/were", "been", "to exist or live"], ["BEAR", "bore", "born", "to carry or put up with something"], ["BEAT", "beat", "beaten", "to hit or win against someone"], ["BEGIN", "began", "begun", "to begin doing something"], ["BEND", "bent", "bent", "to make something curved, not straight"], ["BIND", "bound", "bound", "to tie or hold things together"], ["BITE", "bit", "bitten", "to cut into something with your teeth"], ["BLOW", "blew", "blown", "to push air out of your mouth"], ["BREAK", "broke", "broken", "to separate into pieces by force"], ["BRING", "brought", "brought", "to carry something to a place"], ["BUILD", "built", "built", "to make or construct something"], ["BUY", "bought", "bought", "to get something by paying money"], ["CATCH", "caught", "caught", "to grab something that is moving"], ["CHOOSE", "chose", "chosen", "to pick one thing from several options"], ["COME", "came", "come", "to move towards a place or person"], ["CUT", "cut", "cut", "to divide something with a sharp tool"], ["DEAL", "dealt", "dealt", "to handle or give out something"], ["DIG", "dug", "dug", "to make a hole in the ground"], ["DO", "did", "done", "to perform an action or task"], ["DRAW", "drew", "drawn", "to make a picture with a pencil or pen"], ["DRINK", "drank", "drunk", "to swallow a liquid"], ["DRIVE", "drove", "driven", "to control a vehicle"], ["EAT", "ate", "eaten", "to put food in your mouth and swallow"], ["FALL", "fell", "fallen", "to drop down to a lower place"], ["FEEL", "felt", "felt", "to experience an emotion or sensation"], ["FIGHT", "fought", "fought", "to struggle against someone or something"], ["FIND", "found", "found", "to discover something you were looking for"], ["FLY", "flew", "flown", "to move through the air"], ["FORGET", "forgot", "forgotten", "to be unable to remember something"], ["FREEZE", "froze", "frozen", "to become solid because of cold temperature"], ["GET", "got", "gotten", "to receive or obtain something"], ["GIVE", "gave", "given", "to hand something to someone else"], ["GO", "went", "gone", "to move from one place to another"], ["GROW", "grew", "grown", "to increase in size or number"], ["HANG", "hung", "hung", "to attach something from above"], ["HAVE", "had", "had", "to own or possess something"], ["HEAR", "heard", "heard", "to notice sounds with your ears"], ["HIT", "hit", "hit", "to strike something with force"], ["HIDE", "hid", "hidden", "to put something where it cannot be seen"], ["HOLD", "held", "held", "to keep something firmly in your hands"], ["HURT", "hurt", "hurt", "to cause pain or injury"], ["KEEP", "kept", "kept", "to have something and not give it away"], ["KNOW", "knew", "known", "to have information in your mind"], ["LAY", "laid", "laid", "to put something down flat"], ["LEAD", "led", "led", "to show others the way forward"], ["LEAVE", "left", "left", "to go away from a place"], ["LEND", "lent", "lent", "to let someone use something temporarily"], ["LET", "let", "let", "to allow someone to do something"], ["LIE", "lay", "lain", "to rest flat on a surface"], ["LOSE", "lost", "lost", "to no longer have something"], ["MAKE", "made", "made", "to create or produce something"], ["MEAN", "meant", "meant", "to have a particular meaning"], ["MEET", "met", "met", "to see and talk to someone"], ["PAY", "paid", "paid", "to give money for something"], ["PUT", "put", "put", "to move something to a position"], ["QUIT", "quit", "quit", "to stop doing something permanently"], ["READ", "read", "read", "to look at words and understand them"], ["RIDE", "rode", "ridden", "to travel on a vehicle or animal"], ["RING", "rang", "rung", "to make a bell sound or call someone"], ["RUN", "ran", "run", "to move quickly on foot"], ["SAY", "said", "said", "to express something in words"], ["SEE", "saw", "seen", "to notice something with your eyes"], ["SELL", "sold", "sold", "to give something in exchange for money"], ["SEND", "sent", "sent", "to cause something to go to a place"], ["SPEAK", "spoke", "spoken", "to say words to communicate"], ["STAND", "stood", "stood", "to be in an upright position on your feet"], ["TAKE", "took", "taken", "to move something towards yourself"], ["TEACH", "taught", "taught", "to help someone learn something"], ["TEAR", "tore", "torn", "to pull something apart by force"], ["TELL", "told", "told", "to give information to someone"], ["THINK", "thought", "thought", "to use your mind to form ideas"], ["THROW", "threw", "thrown", "to send something through the air"], ["UNDERSTAND", "understood", "understood", "to know the meaning of something"], ["WAKE", "woke", "woken", "to stop sleeping or cause someone to wake"], ["WEAR", "wore", "worn", "to have clothing on your body"], ["WIN", "won", "won", "to finish first or beat others"], ["WIND", "wound", "wound", "to turn or wrap something around"], ["WRITE", "wrote", "written", "to make words on a surface"]];
+const EXAMPLES = {"ARISE": "A problem <strong>arose</strong> during the meeting.", "AWAKE": "She <strong>awoke</strong> before sunrise.", "BE": "They <strong>were</strong> happy to see us.", "BEAR": "He <strong>bore</strong> the weight without complaint.", "BEAT": "Our team <strong>beat</strong> them 3\u20130.", "BEGIN": "The concert <strong>began</strong> at 8 pm.", "BEND": "She <strong>bent</strong> down to tie her shoes.", "BIND": "He <strong>bound</strong> the books together.", "BITE": "The dog <strong>bit</strong> the stick.", "BLOW": "The wind <strong>blew</strong> the leaves away.", "BREAK": "He <strong>broke</strong> the glass by accident.", "BRING": "She <strong>brought</strong> flowers to the party.", "BUILD": "They <strong>built</strong> a new school last year.", "BUY": "I <strong>bought</strong> a new phone yesterday.", "CATCH": "He <strong>caught</strong> the ball perfectly.", "CHOOSE": "She <strong>chose</strong> the red dress.", "COME": "They <strong>came</strong> home late.", "CUT": "He <strong>cut</strong> the paper in half.", "DEAL": "She <strong>dealt</strong> with the problem quickly.", "DIG": "The dog <strong>dug</strong> a hole in the yard.", "DO": "She <strong>did</strong> all her homework.", "DRAW": "He <strong>drew</strong> a map of the city.", "DRINK": "They <strong>drank</strong> lemonade on the porch.", "DRIVE": "She <strong>drove</strong> to work every day.", "EAT": "We <strong>ate</strong> pizza for dinner.", "FALL": "The leaves <strong>fell</strong> in autumn.", "FEEL": "I <strong>felt</strong> much better after sleeping.", "FIGHT": "They <strong>fought</strong> bravely in the game.", "FIND": "She <strong>found</strong> her lost keys.", "FLY": "The bird <strong>flew</strong> over the lake.", "FORGET": "He <strong>forgot</strong> to bring his wallet.", "FREEZE": "The lake <strong>froze</strong> overnight.", "GET": "I <strong>got</strong> a letter in the mail.", "GIVE": "She <strong>gave</strong> him a surprise gift.", "GO": "They <strong>went</strong> to Paris last summer.", "GROW": "The plant <strong>grew</strong> very fast.", "HANG": "She <strong>hung</strong> the picture on the wall.", "HAVE": "He <strong>had</strong> breakfast at 7 am.", "HEAR": "I <strong>heard</strong> a strange noise outside.", "HIT": "She <strong>hit</strong> the nail on the head.", "HIDE": "The cat <strong>hid</strong> under the bed.", "HOLD": "He <strong>held</strong> the door open for us.", "HURT": "She <strong>hurt</strong> her ankle running.", "KEEP": "He <strong>kept</strong> all his old letters.", "KNOW": "She <strong>knew</strong> the answer right away.", "LAY": "He <strong>laid</strong> the book on the table.", "LEAD": "She <strong>led</strong> the team to victory.", "LEAVE": "They <strong>left</strong> without saying goodbye.", "LEND": "He <strong>lent</strong> me his umbrella.", "LET": "She <strong>let</strong> him borrow her car.", "LIE": "He <strong>lay</strong> on the grass and relaxed.", "LOSE": "Our team <strong>lost</strong> the final match.", "MAKE": "She <strong>made</strong> a delicious cake.", "MEAN": "I <strong>meant</strong> to call you earlier.", "MEET": "We <strong>met</strong> at the coffee shop.", "PAY": "He <strong>paid</strong> for the tickets online.", "PUT": "She <strong>put</strong> the keys on the shelf.", "QUIT": "He <strong>quit</strong> his job last month.", "READ": "I <strong>read</strong> the whole book in one day.", "RIDE": "She <strong>rode</strong> her bike to school.", "RING": "The phone <strong>rang</strong> three times.", "RUN": "He <strong>ran</strong> the race in record time.", "SAY": "She <strong>said</strong> she would be there.", "SEE": "We <strong>saw</strong> a beautiful sunset.", "SELL": "He <strong>sold</strong> his old car for $500.", "SEND": "She <strong>sent</strong> an email this morning.", "SPEAK": "He <strong>spoke</strong> to the whole class.", "STAND": "We <strong>stood</strong> in line for an hour.", "TAKE": "She <strong>took</strong> the train to work.", "TEACH": "He <strong>taught</strong> math for 20 years.", "TEAR": "She <strong>tore</strong> the letter in half.", "TELL": "He <strong>told</strong> us a funny story.", "THINK": "She <strong>thought</strong> about it all night.", "THROW": "He <strong>threw</strong> the ball across the field.", "UNDERSTAND": "I finally <strong>understood</strong> the lesson.", "WAKE": "He <strong>woke</strong> up very early.", "WEAR": "She <strong>wore</strong> a red dress to the party.", "WIN": "Our school <strong>won</strong> the championship.", "WIND": "He <strong>wound</strong> the clock before bed.", "WRITE": "She <strong>wrote</strong> a poem for her friend."};
+const BOARDS = [["HIT", "HURT", "THINK", "HEAR", "SEE", "LET", "RIDE", "PAY", "LIE", "QUIT", "CHOOSE", "FORGET", "BITE", "SAY", "DRIVE", "LEAD"], ["AWAKE", "MAKE", "CATCH", "LOSE", "WEAR", "LEAVE", "BUY", "CUT", "DRAW", "FIND", "BEND", "BE", "KEEP", "GET", "BUILD", "FLY"], ["GROW", "DO", "WIND", "RUN", "BRING", "TAKE", "HOLD", "DIG", "BLOW", "FIGHT", "HIDE", "DEAL", "BEAR", "GIVE", "TELL", "GO"], ["FALL", "SPEAK", "HAVE", "SEND", "PUT", "BEAT", "BIND", "ARISE", "WRITE", "MEET", "LAY", "FEEL", "SELL", "UNDERSTAND", "WAKE", "WIN"], ["THROW", "READ", "BREAK", "EAT", "DRINK", "KNOW", "COME", "STAND", "RING", "BEGIN", "FREEZE", "LEND", "HANG", "TEAR", "TEACH", "MEAN"], ["FIND", "MEAN", "RIDE", "WRITE", "FIGHT", "CUT", "BEAR", "HOLD", "GIVE", "HAVE", "SAY", "QUIT", "FLY", "HEAR", "AWAKE", "BLOW"], ["LEAVE", "CATCH", "BEGIN", "KEEP", "WIND", "READ", "STAND", "ARISE", "GROW", "LIE", "MEET", "LEND", "BREAK", "GET", "WAKE", "DRIVE"], ["THROW", "GO", "HANG", "SPEAK", "TAKE", "WEAR", "SEND", "PAY", "FREEZE", "KNOW", "TELL", "PUT", "LET", "SELL", "FORGET", "BE"], ["RUN", "BUY", "TEAR", "SEE", "DIG", "BITE", "EAT", "DEAL", "TEACH", "CHOOSE", "MAKE", "HIDE", "BIND", "UNDERSTAND", "BRING", "COME"], ["BEND", "LEAD", "LOSE", "BEAT", "THINK", "HURT", "HIT", "LAY", "WIN", "BUILD", "FALL", "FEEL", "DO", "DRINK", "RING", "DRAW"], ["DIG", "LEAD", "ARISE", "BITE", "GROW", "FALL", "HIDE", "WRITE", "BEND", "READ", "DRIVE", "TELL", "QUIT", "EAT", "DEAL", "BEAT"], ["BLOW", "DRINK", "THINK", "CUT", "BEGIN", "BEAR", "LEND", "SEND", "RIDE", "MEAN", "GO", "PUT", "PAY", "SELL", "GET", "SEE"], ["MAKE", "BE", "FIGHT", "HANG", "CATCH", "RING", "WIN", "THROW", "TEAR", "WAKE", "BUY", "KEEP", "WIND", "LEAVE", "BIND", "FREEZE"], ["BRING", "HURT", "FEEL", "FLY", "WEAR", "BREAK", "GIVE", "BUILD", "LAY", "LET", "HAVE", "DO", "TAKE", "SPEAK", "HIT", "STAND"], ["FORGET", "CHOOSE", "TEACH", "HEAR", "AWAKE", "SAY", "UNDERSTAND", "HOLD", "DRAW", "KNOW", "LIE", "MEET", "LOSE", "FIND", "COME", "RUN"], ["ARISE", "FIND", "RIDE", "BE", "BUY", "PUT", "AWAKE", "SEE", "TEACH", "BREAK", "GET", "UNDERSTAND", "EAT", "RING", "LIE", "HIDE"], ["HAVE", "QUIT", "SPEAK", "FIGHT", "COME", "CATCH", "MEET", "LET", "BEAT", "TEAR", "KNOW", "WAKE", "HEAR", "FREEZE", "PAY", "WEAR"], ["DRAW", "KEEP", "FEEL", "BEND", "MEAN", "HANG", "MAKE", "GROW", "WRITE", "WIND", "HURT", "BEAR", "LOSE", "BUILD", "BLOW", "BIND"], ["WIN", "DO", "TELL", "BRING", "THINK", "BEGIN", "HOLD", "CHOOSE", "GO", "CUT", "LEND", "LEAD", "THROW", "LAY", "STAND", "HIT"], ["SAY", "FALL", "SELL", "LEAVE", "READ", "DRINK", "SEND", "FORGET", "TAKE", "DRIVE", "DIG", "DEAL", "RUN", "GIVE", "FLY", "BITE"], ["FIND", "ARISE", "HIT", "BEND", "BIND", "GIVE", "DRINK", "CHOOSE", "DRIVE", "WAKE", "BLOW", "HANG", "DRAW", "READ", "SPEAK", "FREEZE"], ["KEEP", "HURT", "DEAL", "FIGHT", "BREAK", "LEAVE", "KNOW", "HEAR", "GET", "LEAD", "WRITE", "FORGET", "SAY", "TELL", "HIDE", "WIND"], ["CUT", "GROW", "LOSE", "BRING", "MAKE", "STAND", "BEAT", "AWAKE", "LIE", "RING", "WEAR", "RIDE", "HAVE", "MEAN", "THROW", "PAY"], ["THINK", "WIN", "BITE", "SEND", "CATCH", "COME", "TEAR", "TEACH", "GO", "FLY", "FALL", "SELL", "QUIT", "FEEL", "HOLD", "TAKE"], ["RUN", "MEET", "PUT", "LET", "BEAR", "LEND", "BEGIN", "DIG", "LAY", "SEE", "EAT", "BE", "DO", "BUY", "UNDERSTAND", "BUILD"]];
+
+function svgFor(verb) {
+  const svgs = {
+"ARISE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="60" r="12" fill="#FFB74D"/>
+  <line x1="50" y1="48" x2="50" y2="18" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <polyline points="38,28 50,16 62,28" fill="none" stroke="#E53935" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="50" cy="72" rx="16" ry="5" fill="#A5D6A7" opacity=".7"/>
+  <circle cx="50" cy="60" r="6" fill="#FF7043"/>
+</svg>`,
+
+"AWAKE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="15" y="42" width="70" height="30" rx="6" fill="#90CAF9"/>
+  <rect x="20" y="30" width="60" height="15" rx="8" fill="#FFECB3"/>
+  <circle cx="50" cy="28" r="12" fill="#FFCC02"/>
+  <ellipse cx="45" cy="27" rx="2.5" ry="3" fill="#333"/>
+  <ellipse cx="55" cy="27" rx="2.5" ry="3" fill="#333"/>
+  <path d="M44 33 Q50 37 56 33" fill="none" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="50" y1="14" x2="50" y2="8" stroke="#FDD835" stroke-width="2" stroke-linecap="round"/>
+  <line x1="60" y1="18" x2="65" y2="13" stroke="#FDD835" stroke-width="2" stroke-linecap="round"/>
+  <line x1="40" y1="18" x2="35" y2="13" stroke="#FDD835" stroke-width="2" stroke-linecap="round"/>
+</svg>`,
+
+"BE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="35" r="18" fill="#CE93D8"/>
+  <ellipse cx="50" cy="67" rx="18" ry="7" fill="#CE93D8" opacity=".5"/>
+  <ellipse cx="43" cy="32" rx="3" ry="4" fill="#333"/>
+  <ellipse cx="57" cy="32" rx="3" ry="4" fill="#333"/>
+  <path d="M43 41 Q50 47 57 41" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="50" cy="35" r="8" fill="none" stroke="white" stroke-width="1" stroke-dasharray="3,3"/>
+</svg>`,
+
+"BEAR": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="50" cy="55" rx="22" ry="20" fill="#795548"/>
+  <circle cx="50" cy="35" r="14" fill="#795548"/>
+  <circle cx="40" cy="26" r="6" fill="#795548"/>
+  <circle cx="60" cy="26" r="6" fill="#795548"/>
+  <circle cx="50" cy="36" r="8" fill="#A1887F"/>
+  <ellipse cx="47" cy="33" rx="2" ry="2.5" fill="#333"/>
+  <ellipse cx="53" cy="33" rx="2" ry="2.5" fill="#333"/>
+  <ellipse cx="50" cy="37" rx="3" ry="2" fill="#333"/>
+</svg>`,
+
+"BEAT": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="50" cy="45" rx="16" ry="20" fill="#EF5350"/>
+  <circle cx="50" cy="30" r="12" fill="#FFCC02"/>
+  <ellipse cx="44" cy="28" rx="2.5" ry="3" fill="#333"/>
+  <ellipse cx="56" cy="28" rx="2.5" ry="3" fill="#333"/>
+  <path d="M43 35 Q50 40 57 35" fill="none" stroke="#333" stroke-width="2"/>
+  <line x1="30" y1="50" x2="20" y2="60" stroke="#795548" stroke-width="4" stroke-linecap="round"/>
+  <line x1="70" y1="50" x2="80" y2="60" stroke="#795548" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="20" cy="62" r="5" fill="#795548"/>
+  <circle cx="80" cy="62" r="5" fill="#795548"/>
+  <rect x="42" y="62" width="16" height="8" rx="4" fill="#FFA726"/>
+  <text x="50" y="70" text-anchor="middle" font-size="7" font-weight="bold" fill="white">🥁</text>
+</svg>`,
+
+"BEGIN": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="40" r="28" fill="none" stroke="#E0E0E0" stroke-width="3"/>
+  <path d="M50 40 L50 15" stroke="#1565C0" stroke-width="3" stroke-linecap="round"/>
+  <path d="M50 40 L68 50" stroke="#C62828" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="50" cy="40" r="4" fill="#333"/>
+  <text x="50" y="72" text-anchor="middle" font-size="9" font-weight="bold" fill="#1565C0">START</text>
+  <polygon points="50,8 55,16 45,16" fill="#1565C0"/>
+</svg>`,
+
+"BEND": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="20" r="9" fill="#FFCC02"/>
+  <line x1="50" y1="29" x2="50" y2="48" stroke="#1976D2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M50 48 Q50 58 62 65" fill="none" stroke="#1976D2" stroke-width="4" stroke-linecap="round"/>
+  <line x1="36" y1="40" x2="25" y2="52" stroke="#E53935" stroke-width="3" stroke-linecap="round"/>
+  <line x1="64" y1="40" x2="75" y2="52" stroke="#E53935" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="62" cy="68" rx="8" ry="5" fill="#A5D6A7"/>
+</svg>`,
+
+"BIND": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="32" y="20" width="36" height="48" rx="4" fill="#FFF9C4" stroke="#FDD835" stroke-width="2"/>
+  <line x1="32" y1="35" x2="68" y2="35" stroke="#FDD835" stroke-width="1"/>
+  <line x1="32" y1="45" x2="68" y2="45" stroke="#FDD835" stroke-width="1"/>
+  <line x1="32" y1="55" x2="68" y2="55" stroke="#FDD835" stroke-width="1"/>
+  <path d="M20 44 Q50 20 80 44" fill="none" stroke="#E53935" stroke-width="3" stroke-dasharray="5,3"/>
+  <circle cx="50" cy="44" r="5" fill="#E53935"/>
+</svg>`,
+
+"BITE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="65" cy="38" r="18" fill="#FF8A65"/>
+  <circle cx="65" cy="38" r="8" fill="#FFCCBC" opacity=".8"/>
+  <path d="M20 30 Q20 15 35 15 Q50 15 50 30 L50 50 Q50 65 35 65 Q20 65 20 50 Z" fill="#FFCC02"/>
+  <rect x="25" y="25" width="5" height="10" rx="2" fill="white"/>
+  <rect x="33" y="22" width="5" height="13" rx="2" fill="white"/>
+  <rect x="41" y="22" width="5" height="13" rx="2" fill="white"/>
+  <rect x="25" y="45" width="5" height="10" rx="2" fill="white"/>
+  <rect x="33" y="45" width="5" height="13" rx="2" fill="white"/>
+  <rect x="41" y="45" width="5" height="13" rx="2" fill="white"/>
+</svg>`,
+
+"BLOW": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="25" cy="40" r="12" fill="#FFCC02"/>
+  <ellipse cx="22" cy="38" rx="2" ry="2.5" fill="#333"/>
+  <path d="M28 43 Q32 38 40 40 Q55 44 70 36 Q80 30 85 25" fill="none" stroke="#90CAF9" stroke-width="3" stroke-linecap="round"/>
+  <path d="M28 43 Q32 50 45 55 Q60 60 80 55" fill="none" stroke="#B3E5FC" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="82" cy="26" r="6" fill="#EF5350"/>
+  <circle cx="83" cy="55" r="5" fill="#CE93D8"/>
+  <circle cx="90" cy="40" r="4" fill="#81C784"/>
+</svg>`,
+
+"BREAK": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="15" y="30" width="32" height="28" rx="3" fill="#90CAF9"/>
+  <rect x="53" y="30" width="32" height="28" rx="3" fill="#90CAF9"/>
+  <path d="M47 30 L53 30 L47 58 L53 58" fill="none" stroke="#E53935" stroke-width="3" stroke-linecap="round"/>
+  <line x1="40" y1="10" x2="55" y2="25" stroke="#FFA726" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="50" y1="8" x2="55" y2="25" stroke="#FFA726" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="58" y1="12" x2="55" y2="25" stroke="#FFA726" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="55" cy="25" r="4" fill="#E53935"/>
+</svg>`,
+
+"BRING": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="30" cy="25" r="9" fill="#FFCC02"/>
+  <line x1="30" y1="34" x2="30" y2="55" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <line x1="18" y1="42" x2="30" y2="50" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <line x1="42" y1="42" x2="30" y2="50" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <rect x="35" y="45" width="30" height="22" rx="4" fill="#FF8A65"/>
+  <line x1="38" y1="45" x2="38" y2="40" stroke="#795548" stroke-width="2"/>
+  <line x1="62" y1="45" x2="62" y2="40" stroke="#795548" stroke-width="2"/>
+  <path d="M38 40 Q50 33 62 40" fill="none" stroke="#795548" stroke-width="2"/>
+  <polyline points="28,52 28,65 52,65" fill="none" stroke="#FDD835" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <polygon points="50,60 58,65 50,70" fill="#E53935"/>
+</svg>`,
+
+"BUILD": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="50" width="60" height="20" rx="2" fill="#FF8A65"/>
+  <rect x="28" y="35" width="44" height="20" rx="2" fill="#FFA726"/>
+  <rect x="36" y="22" width="28" height="17" rx="2" fill="#FFCC02"/>
+  <rect x="44" y="11" width="12" height="13" rx="2" fill="#EF5350"/>
+  <line x1="15" y1="70" x2="85" y2="70" stroke="#795548" stroke-width="2.5"/>
+</svg>`,
+
+"BUY": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="35" cy="20" r="7" fill="#1976D2"/>
+  <path d="M22 30 L25 52 L68 52 L75 30 Z" fill="#1976D2"/>
+  <path d="M35 30 Q35 20 50 20 Q65 20 65 30" fill="none" stroke="#1976D2" stroke-width="3"/>
+  <circle cx="33" cy="58" r="5" fill="#333"/>
+  <circle cx="58" cy="58" r="5" fill="#333"/>
+  <rect x="42" y="14" width="16" height="18" rx="3" fill="#FFCC02"/>
+  <text x="50" y="26" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">$</text>
+</svg>`,
+
+"CATCH": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15 20 Q15 65 50 65 Q85 65 85 20" fill="none" stroke="#1976D2" stroke-width="4" stroke-linecap="round"/>
+  <line x1="15" y1="20" x2="10" y2="10" stroke="#795548" stroke-width="3" stroke-linecap="round"/>
+  <line x1="85" y1="20" x2="90" y2="10" stroke="#795548" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="50" cy="35" r="10" fill="#E53935"/>
+</svg>`,
+
+"CHOOSE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="15" width="30" height="22" rx="5" fill="#CE93D8"/>
+  <rect x="60" y="15" width="30" height="22" rx="5" fill="#81C784"/>
+  <rect x="10" y="48" width="30" height="22" rx="5" fill="#FF8A65"/>
+  <rect x="60" y="48" width="30" height="22" rx="5" fill="#90CAF9"/>
+  <circle cx="50" cy="40" r="7" fill="#FFCC02"/>
+  <path d="M44 40 Q50 33 56 40" fill="none" stroke="#333" stroke-width="1.5"/>
+  <text x="50" y="44" text-anchor="middle" font-size="9" font-weight="bold" fill="#333">?</text>
+</svg>`,
+
+"COME": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="70" cy="25" r="9" fill="#FFCC02"/>
+  <line x1="70" y1="34" x2="70" y2="55" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <line x1="70" y1="43" x2="58" y2="52" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <line x1="70" y1="43" x2="82" y2="52" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <line x1="25" y1="55" x2="75" y2="55" stroke="#A5D6A7" stroke-width="2.5"/>
+  <polygon points="72,48 80,56 72,64" fill="none" stroke="#E53935" stroke-width="2.5" stroke-linejoin="round"/>
+  <line x1="72" y1="56" x2="40" y2="56" stroke="#E53935" stroke-width="2.5" stroke-linecap="round"/>
+  <polyline points="48,50 40,56 48,62" fill="none" stroke="#E53935" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`,
+
+"CUT": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20 20 L80 60" stroke="#9E9E9E" stroke-width="6" stroke-linecap="round"/>
+  <path d="M80 20 L20 60" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round" stroke-dasharray="5,4"/>
+  <circle cx="20" cy="20" r="7" fill="#EF5350"/>
+  <circle cx="20" cy="60" r="7" fill="#EF5350"/>
+  <rect x="68" y="14" width="22" height="10" rx="5" fill="#78909C"/>
+  <rect x="68" y="56" width="22" height="10" rx="5" fill="#78909C"/>
+</svg>`,
+
+"DEAL": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="38" y="8" width="24" height="34" rx="3" fill="white" stroke="#9E9E9E" stroke-width="1.5"/>
+  <text x="50" y="30" text-anchor="middle" font-size="16" fill="#E53935">♥</text>
+  <rect x="10" y="30" width="20" height="30" rx="3" fill="white" stroke="#9E9E9E" stroke-width="1.5" transform="rotate(-20,20,45)"/>
+  <rect x="70" y="30" width="20" height="30" rx="3" fill="white" stroke="#9E9E9E" stroke-width="1.5" transform="rotate(20,80,45)"/>
+  <circle cx="50" cy="60" r="8" fill="#FFCC02"/>
+  <text x="50" y="64" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">→</text>
+</svg>`,
+
+"DIG": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="50" width="80" height="20" rx="3" fill="#795548"/>
+  <rect x="10" y="48" width="80" height="6" rx="2" fill="#A1887F"/>
+  <line x1="50" y1="48" x2="50" y2="20" stroke="#795548" stroke-width="4" stroke-linecap="round"/>
+  <rect x="36" y="14" width="28" height="10" rx="3" fill="#FF8A65"/>
+  <line x1="36" y1="19" x2="20" y2="32" stroke="#795548" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
+
+"DO": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="40" r="26" fill="#E53935"/>
+  <text x="50" y="48" text-anchor="middle" font-size="22" font-weight="bold" fill="white" font-family="Arial">DO!</text>
+</svg>`,
+
+"DRAW": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="15" width="60" height="50" rx="4" fill="#FFF9C4" stroke="#FDD835" stroke-width="2"/>
+  <circle cx="50" cy="35" r="10" fill="none" stroke="#1976D2" stroke-width="2.5"/>
+  <path d="M32 52 Q42 40 52 52 Q62 64 72 52" fill="none" stroke="#E53935" stroke-width="2.5"/>
+  <line x1="60" y1="60" x2="75" y2="70" stroke="#795548" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="58" cy="62" r="4" fill="#81C784"/>
+</svg>`,
+
+"DRINK": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <path d="M30 20 L35 70 L65 70 L70 20 Z" fill="#80DEEA"/>
+  <path d="M30 20 L70 20 L65 55 Q50 65 35 55 Z" fill="#4DD0E1"/>
+  <rect x="27" y="16" width="46" height="8" rx="2" fill="#B0BEC5"/>
+  <path d="M62 30 Q75 32 72 45 Q69 50 65 48" fill="none" stroke="#4FC3F7" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="50" cy="25" r="0" fill="none"/>
+  <ellipse cx="50" cy="43" rx="12" ry="5" fill="#E0F7FA" opacity=".6"/>
+</svg>`,
+
+"DRIVE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="15" y="35" width="70" height="28" rx="10" fill="#EF5350"/>
+  <rect x="28" y="22" width="44" height="20" rx="5" fill="#EF5350"/>
+  <rect x="32" y="25" width="16" height="14" rx="3" fill="#B3E5FC"/>
+  <rect x="52" y="25" width="16" height="14" rx="3" fill="#B3E5FC"/>
+  <circle cx="30" cy="65" r="9" fill="#333"/>
+  <circle cx="30" cy="65" r="5" fill="#9E9E9E"/>
+  <circle cx="70" cy="65" r="9" fill="#333"/>
+  <circle cx="70" cy="65" r="5" fill="#9E9E9E"/>
+  <line x1="8" y1="48" x2="15" y2="48" stroke="#FDD835" stroke-width="3" stroke-linecap="round"/>
+  <line x1="8" y1="44" x2="15" y2="44" stroke="#FDD835" stroke-width="2" stroke-linecap="round"/>
+</svg>`,
+
+"EAT": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="48" r="22" fill="#FFF9C4" stroke="#FDD835" stroke-width="2"/>
+  <circle cx="50" cy="48" r="16" fill="#FF8A65"/>
+  <ellipse cx="44" cy="46" rx="2.5" ry="3" fill="#333"/>
+  <ellipse cx="56" cy="46" rx="2.5" ry="3" fill="#333"/>
+  <path d="M44 53 Q50 58 56 53" fill="none" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="22" y1="25" x2="22" y2="55" stroke="#9E9E9E" stroke-width="3" stroke-linecap="round"/>
+  <path d="M32 25 Q32 35 38 35" fill="none" stroke="#9E9E9E" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="38" y1="25" x2="38" y2="55" stroke="#9E9E9E" stroke-width="2.5" stroke-linecap="round"/>
+</svg>`,
+
+"FALL": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="55" cy="18" r="9" fill="#FFCC02"/>
+  <line x1="55" y1="27" x2="55" y2="48" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <line x1="43" y1="35" x2="55" y2="43" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <line x1="67" y1="35" x2="55" y2="43" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="30" cy="55" r="9" fill="#FFCC02" transform="rotate(60,30,55)"/>
+  <line x1="30" y1="45" x2="30" y2="65" stroke="#E53935" stroke-width="3" stroke-linecap="round" transform="rotate(60,30,55)"/>
+  <line x1="10" y1="70" x2="90" y2="70" stroke="#A5D6A7" stroke-width="2.5"/>
+  <polyline points="50,30 30,55 25,70" fill="none" stroke="#FFA726" stroke-width="1.5" stroke-dasharray="4,3" stroke-linecap="round"/>
+</svg>`,
+
+"FEEL": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50 65 C30 50 15 40 15 28 C15 20 22 14 30 14 C37 14 43 18 50 25 C57 18 63 14 70 14 C78 14 85 20 85 28 C85 40 70 50 50 65 Z" fill="#EF5350"/>
+  <path d="M50 60 C34 47 22 38 22 28 C22 23 26 20 30 20 C36 20 42 25 50 32 C58 25 64 20 70 20 C74 20 78 23 78 28 C78 38 66 47 50 60 Z" fill="#FFCDD2"/>
+</svg>`,
+
+"FIGHT": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="28" cy="22" r="8" fill="#FFCC02"/>
+  <circle cx="72" cy="22" r="8" fill="#FFCC02"/>
+  <line x1="28" y1="30" x2="28" y2="50" stroke="#1976D2" stroke-width="3"/>
+  <line x1="72" y1="30" x2="72" y2="50" stroke="#E53935" stroke-width="3"/>
+  <line x1="28" y1="38" x2="50" y2="42" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <line x1="72" y1="38" x2="50" y2="42" stroke="#E53935" stroke-width="3" stroke-linecap="round"/>
+  <path d="M46 38 L54 38 L54 46 L46 46 Z" fill="#FFA726"/>
+  <text x="50" y="44" text-anchor="middle" font-size="8" font-weight="bold" fill="white">★</text>
+</svg>`,
+
+"FIND": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="42" cy="38" r="18" fill="none" stroke="#1976D2" stroke-width="4"/>
+  <line x1="55" y1="52" x2="75" y2="70" stroke="#795548" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="42" cy="38" r="12" fill="none" stroke="#90CAF9" stroke-width="2"/>
+  <text x="42" y="43" text-anchor="middle" font-size="14" fill="#E53935">!</text>
+</svg>`,
+
+"FLY": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50 45 L20 30 L35 45 L10 50 L35 55 L20 65 L50 55 L80 65 L65 55 L90 50 L65 45 L80 30 Z" fill="#90CAF9"/>
+  <ellipse cx="50" cy="48" rx="8" ry="5" fill="#1976D2"/>
+  <polygon points="50,35 55,47 45,47" fill="#1565C0"/>
+</svg>`,
+
+"FORGET": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="35" r="20" fill="#CE93D8"/>
+  <ellipse cx="43" cy="32" rx="3" ry="3.5" fill="#333"/>
+  <ellipse cx="57" cy="32" rx="3" ry="3.5" fill="#333"/>
+  <path d="M43 42 Q50 39 57 42" fill="none" stroke="#333" stroke-width="2"/>
+  <path d="M62 22 Q72 12 78 20 Q84 28 74 32" fill="none" stroke="#E53935" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="50" cy="35" r="5" fill="none" stroke="white" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <text x="75" y="35" text-anchor="middle" font-size="12" fill="#E53935">?</text>
+</svg>`,
+
+"FREEZE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="40" r="25" fill="#B3E5FC"/>
+  <line x1="50" y1="18" x2="50" y2="62" stroke="#0288D1" stroke-width="3"/>
+  <line x1="30" y1="29" x2="70" y2="51" stroke="#0288D1" stroke-width="3"/>
+  <line x1="70" y1="29" x2="30" y2="51" stroke="#0288D1" stroke-width="3"/>
+  <line x1="42" y1="20" x2="50" y2="18" stroke="#4FC3F7" stroke-width="2"/>
+  <line x1="58" y1="20" x2="50" y2="18" stroke="#4FC3F7" stroke-width="2"/>
+  <circle cx="50" cy="40" r="4" fill="#0288D1"/>
+</svg>`,
+
+"GET": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="30" cy="40" r="8" fill="#FFCC02"/>
+  <line x1="38" y1="40" x2="62" y2="40" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="60,33 72,40 60,47" fill="#1976D2"/>
+  <rect x="68" y="28" width="22" height="24" rx="5" fill="#E53935"/>
+  <text x="79" y="44" text-anchor="middle" font-size="16" fill="white">★</text>
+</svg>`,
+
+"GIVE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="30" cy="22" r="9" fill="#FFCC02"/>
+  <line x1="30" y1="31" x2="30" y2="52" stroke="#1976D2" stroke-width="3"/>
+  <line x1="30" y1="42" x2="50" y2="52" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <rect x="50" y="42" width="20" height="18" rx="4" fill="#E53935"/>
+  <rect x="56" y="36" width="8" height="10" rx="2" fill="#E53935"/>
+  <path d="M54 38 Q60 32 66 38" fill="none" stroke="#C62828" stroke-width="2"/>
+  <line x1="60" y1="42" x2="60" y2="60" stroke="#FF8A65" stroke-width="2"/>
+  <line x1="50" y1="51" x2="70" y2="51" stroke="#FF8A65" stroke-width="2"/>
+  <circle cx="72" cy="28" r="9" fill="#81C784"/>
+  <text x="72" y="32" text-anchor="middle" font-size="14" fill="white">♡</text>
+</svg>`,
+
+"GO": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="25" width="45" height="32" rx="5" fill="#81C784"/>
+  <polygon points="63,20 80,41 63,62" fill="#4CAF50"/>
+  <text x="38" y="48" text-anchor="middle" font-size="18" font-weight="bold" fill="white" font-family="Arial">GO!</text>
+</svg>`,
+
+"GROW": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <line x1="50" y1="70" x2="50" y2="30" stroke="#795548" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="50" cy="28" rx="14" ry="10" fill="#81C784"/>
+  <ellipse cx="35" cy="40" rx="12" ry="8" fill="#A5D6A7" transform="rotate(-20,35,40)"/>
+  <ellipse cx="65" cy="38" rx="12" ry="8" fill="#A5D6A7" transform="rotate(20,65,38)"/>
+  <ellipse cx="50" cy="16" rx="10" ry="8" fill="#4CAF50"/>
+  <line x1="15" y1="70" x2="85" y2="70" stroke="#795548" stroke-width="2"/>
+  <ellipse cx="50" cy="73" rx="20" ry="4" fill="#8D6E63" opacity=".5"/>
+</svg>`,
+
+"HANG": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <line x1="20" y1="10" x2="80" y2="10" stroke="#795548" stroke-width="3"/>
+  <line x1="50" y1="10" x2="50" y2="25" stroke="#795548" stroke-width="2"/>
+  <line x1="30" y1="10" x2="30" y2="35" stroke="#795548" stroke-width="2"/>
+  <line x1="70" y1="10" x2="70" y2="35" stroke="#795548" stroke-width="2"/>
+  <rect x="22" y="35" width="16" height="28" rx="3" fill="#EF5350"/>
+  <rect x="62" y="35" width="16" height="28" rx="3" fill="#1976D2"/>
+  <line x1="38" y1="35" x2="62" y2="35" stroke="#9E9E9E" stroke-width="1"/>
+  <circle cx="30" cy="32" r="3" fill="#795548"/>
+  <circle cx="70" cy="32" r="3" fill="#795548"/>
+</svg>`,
+
+"HAVE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="35" cy="28" r="9" fill="#FFCC02"/>
+  <line x1="35" y1="37" x2="35" y2="58" stroke="#1976D2" stroke-width="3"/>
+  <rect x="48" y="30" width="30" height="24" rx="5" fill="#EF9A9A"/>
+  <circle cx="54" cy="40" r="3" fill="#E53935"/>
+  <circle cx="63" cy="37" r="3" fill="#FF8A65"/>
+  <circle cx="70" cy="43" r="3" fill="#FFCC02"/>
+  <circle cx="60" cy="46" r="3" fill="#81C784"/>
+  <line x1="35" y1="44" x2="48" y2="40" stroke="#1976D2" stroke-width="2.5" stroke-linecap="round"/>
+</svg>`,
+
+"HEAR": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="35" r="16" fill="#FFCC02"/>
+  <ellipse cx="56" cy="35" rx="5" ry="12" fill="#FFCC02" stroke="#FFA726" stroke-width="2"/>
+  <path d="M30 30 Q20 35 30 42" fill="none" stroke="#9E9E9E" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M24 25 Q10 35 24 47" fill="none" stroke="#9E9E9E" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="50" cy="35" r="5" fill="#FF8A65"/>
+</svg>`,
+
+"HIT": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="65" cy="35" r="18" fill="#FFCCBC"/>
+  <path d="M25 35 L22 32 L30 38 L18 40 L30 42 L22 48 L30 42" fill="none" stroke="#FFA726" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="28" y1="38" x2="47" y2="38" stroke="#E53935" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="47" cy="38" r="5" fill="#E53935"/>
+  <text x="65" y="40" text-anchor="middle" font-size="12" fill="#E53935">★</text>
+</svg>`,
+
+"HOLD": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="38" y="8" width="24" height="36" rx="12" fill="#FFCC80"/>
+  <rect x="30" y="38" width="40" height="12" rx="6" fill="#FFCC80"/>
+  <line x1="30" y1="44" x2="18" y2="55" stroke="#FFCC80" stroke-width="8" stroke-linecap="round"/>
+  <line x1="70" y1="44" x2="82" y2="55" stroke="#FFCC80" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="50" cy="30" r="10" fill="#EF5350"/>
+  <text x="50" y="34" text-anchor="middle" font-size="12" fill="white">★</text>
+</svg>`,
+
+"HIDE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="40" width="60" height="30" rx="5" fill="#795548"/>
+  <circle cx="50" cy="35" r="12" fill="#FFCC02"/>
+  <ellipse cx="43" cy="33" rx="2.5" ry="3" fill="#333"/>
+  <ellipse cx="57" cy="33" rx="2.5" ry="3" fill="#333"/>
+  <path d="M43 40 Q50 44 57 40" fill="none" stroke="#333" stroke-width="1.5"/>
+  <line x1="20" y1="40" x2="50" y2="35" stroke="#795548" stroke-width="3" stroke-linecap="round"/>
+  <line x1="80" y1="40" x2="50" y2="35" stroke="#795548" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
+
+"HURT": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50 65 C30 50 15 40 15 28 C15 20 22 14 30 14 C37 14 43 18 50 25 C57 18 63 14 70 14 C78 14 85 20 85 28 C85 40 70 50 50 65 Z" fill="#EF5350"/>
+  <path d="M38 35 L62 35 M50 28 L50 42" stroke="white" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
+
+"KEEP": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="25" y="18" width="50" height="50" rx="6" fill="#B0BEC5"/>
+  <path d="M35 18 L35 10 Q50 5 65 10 L65 18" fill="#78909C"/>
+  <circle cx="50" cy="44" r="8" fill="#FFCC02"/>
+  <rect x="46" y="44" width="8" height="10" rx="2" fill="#FFA726"/>
+  <text x="50" y="56" text-anchor="middle" font-size="7" fill="#795548">🔒</text>
+</svg>`,
+
+"KNOW": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="32" r="20" fill="#CE93D8"/>
+  <ellipse cx="43" cy="29" rx="3" ry="3.5" fill="#333"/>
+  <ellipse cx="57" cy="29" rx="3" ry="3.5" fill="#333"/>
+  <path d="M43 38 Q50 44 57 38" fill="none" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M50 12 Q55 5 62 8 Q70 12 67 20 Q64 28 55 28" fill="none" stroke="#FFA726" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="50" cy="12" r="3" fill="#FFCC02"/>
+  <ellipse cx="50" cy="60" rx="14" ry="8" fill="#E1BEE7" opacity=".7"/>
+</svg>`,
+
+"LAY": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="50" cy="48" rx="28" ry="16" fill="#FFCC80"/>
+  <circle cx="50" cy="40" r="10" fill="#FFCC02"/>
+  <ellipse cx="44" cy="38" rx="2" ry="2.5" fill="#333"/>
+  <ellipse cx="56" cy="38" rx="2" ry="2.5" fill="#333"/>
+  <path d="M44 44 Q50 48 56 44" fill="none" stroke="#333" stroke-width="1.5"/>
+  <rect x="18" y="60" width="64" height="8" rx="3" fill="#A5D6A7"/>
+</svg>`,
+
+"LEAD": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="28" cy="22" r="8" fill="#FFCC02"/>
+  <circle cx="55" cy="28" r="7" fill="#FFE082"/>
+  <circle cx="75" cy="30" r="6" fill="#FFF9C4"/>
+  <line x1="28" y1="30" x2="28" y2="52" stroke="#1976D2" stroke-width="3"/>
+  <line x1="55" y1="35" x2="55" y2="55" stroke="#1976D2" stroke-width="2.5"/>
+  <line x1="75" y1="36" x2="75" y2="55" stroke="#1976D2" stroke-width="2"/>
+  <polygon points="28,28 35,22 28,16" fill="#E53935"/>
+  <line x1="15" y1="60" x2="85" y2="60" stroke="#A5D6A7" stroke-width="2.5"/>
+</svg>`,
+
+"LEAVE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="15" y="20" width="40" height="45" rx="4" fill="#90CAF9"/>
+  <rect x="32" y="35" width="12" height="16" rx="2" fill="#1565C0"/>
+  <line x1="55" y1="43" x2="85" y2="43" stroke="#E53935" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="82,36 92,43 82,50" fill="#E53935"/>
+  <circle cx="75" cy="30" r="7" fill="#FFCC02"/>
+  <line x1="75" y1="37" x2="75" y2="52" stroke="#795548" stroke-width="2.5"/>
+  <line x1="68" y1="43" x2="75" y2="48" stroke="#795548" stroke-width="2.5"/>
+  <line x1="82" y1="43" x2="75" y2="48" stroke="#795548" stroke-width="2.5"/>
+</svg>`,
+
+"LEND": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="10" y="35" width="30" height="20" rx="5" fill="#FFCC80"/>
+  <line x1="40" y1="45" x2="60" y2="45" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="57,38 68,45 57,52" fill="#1976D2"/>
+  <rect x="60" y="35" width="30" height="20" rx="5" fill="#A5D6A7"/>
+  <text x="25" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#795548">$</text>
+  <text x="75" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#2e7d32">$</text>
+  <text x="50" y="28" text-anchor="middle" font-size="8" fill="#9E9E9E">LOAN</text>
+</svg>`,
+
+"LET": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="20" width="30" height="40" rx="3" fill="#B0BEC5"/>
+  <rect x="32" y="34" width="12" height="16" rx="2" fill="#78909C"/>
+  <circle cx="44" cy="42" r="2" fill="#FFCC02"/>
+  <line x1="50" y1="42" x2="75" y2="42" stroke="#81C784" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="72,35 83,42 72,49" fill="#81C784"/>
+  <circle cx="78" cy="30" r="7" fill="#FFCC02"/>
+  <line x1="78" y1="37" x2="78" y2="55" stroke="#795548" stroke-width="2.5"/>
+</svg>`,
+
+"LIE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="15" y="50" width="70" height="18" rx="6" fill="#90CAF9"/>
+  <rect x="10" y="44" width="16" height="8" rx="4" fill="#FFCCBC"/>
+  <ellipse cx="50" cy="47" rx="24" ry="10" fill="#FFCC80"/>
+  <circle cx="75" cy="47" r="8" fill="#FFCC02"/>
+  <ellipse cx="71" cy="45" rx="2" ry="2.5" fill="#333"/>
+  <ellipse cx="79" cy="45" rx="2" ry="2.5" fill="#333"/>
+</svg>`,
+
+"LOSE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <path d="M30 20 L50 20 L50 55 L30 55 Z" fill="#CE93D8"/>
+  <path d="M50 20 L70 20 L70 55 L50 55 Z" fill="#90CAF9"/>
+  <rect x="28" y="52" width="44" height="8" rx="2" fill="#FFCC02"/>
+  <circle cx="75" cy="30" r="7" fill="#EF5350"/>
+  <text x="75" y="34" text-anchor="middle" font-size="12" fill="white">?</text>
+  <path d="M70 30 Q78 22 82 28" fill="none" stroke="#E53935" stroke-width="2" stroke-linecap="round"/>
+  <text x="30" y="72" text-anchor="start" font-size="7" fill="#666">← lost</text>
+</svg>`,
+
+"MAKE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <text x="50" y="38" text-anchor="middle" font-size="20" font-weight="bold" fill="#1976D2" font-family="Arial">Make:</text>
+  <line x1="30" y1="55" x2="70" y2="55" stroke="#9E9E9E" stroke-width="3"/>
+  <circle cx="38" cy="55" r="5" fill="#EF5350"/>
+  <circle cx="52" cy="55" r="5" fill="#FFCC02"/>
+  <circle cx="66" cy="55" r="5" fill="#81C784"/>
+</svg>`,
+
+"MEAN": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="15" y="15" width="52" height="35" rx="8" fill="#CE93D8"/>
+  <circle cx="20" cy="28" r="3" fill="white"/>
+  <circle cx="31" cy="28" r="3" fill="white"/>
+  <circle cx="42" cy="28" r="3" fill="white"/>
+  <rect x="30" y="45" width="14" height="10" rx="2" fill="#CE93D8"/>
+  <polygon points="30,55 44,55 37,65" fill="#CE93D8"/>
+  <text x="42" y="38" text-anchor="middle" font-size="8" fill="white">meaning</text>
+  <text x="75" y="30" text-anchor="middle" font-size="28" fill="#FFCC02">≡</text>
+</svg>`,
+
+"MEET": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="30" cy="22" r="9" fill="#FFCC02"/>
+  <circle cx="70" cy="22" r="9" fill="#81C784"/>
+  <line x1="30" y1="31" x2="30" y2="52" stroke="#1976D2" stroke-width="3"/>
+  <line x1="70" y1="31" x2="70" y2="52" stroke="#4CAF50" stroke-width="3"/>
+  <line x1="30" y1="40" x2="70" y2="40" stroke="#9E9E9E" stroke-width="2" stroke-dasharray="4,3"/>
+  <line x1="30" y1="42" x2="45" y2="52" stroke="#1976D2" stroke-width="2.5"/>
+  <line x1="70" y1="42" x2="55" y2="52" stroke="#4CAF50" stroke-width="2.5"/>
+  <path d="M42 52 Q50 55 58 52" fill="none" stroke="#FFCC02" stroke-width="2.5" stroke-linecap="round"/>
+</svg>`,
+
+"PAY": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="28" width="60" height="36" rx="5" fill="#81C784"/>
+  <ellipse cx="50" cy="46" rx="14" ry="12" fill="#FFF9C4"/>
+  <text x="50" y="51" text-anchor="middle" font-size="16" font-weight="bold" fill="#1565C0">$</text>
+  <line x1="42" y1="24" x2="38" y2="18" stroke="#FDD835" stroke-width="2"/>
+  <line x1="50" y1="24" x2="50" y2="16" stroke="#FDD835" stroke-width="2"/>
+  <line x1="58" y1="24" x2="62" y2="18" stroke="#FDD835" stroke-width="2"/>
+</svg>`,
+
+"PUT": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="25" y="50" width="50" height="18" rx="3" fill="#90CAF9"/>
+  <circle cx="50" cy="32" r="10" fill="#FF8A65"/>
+  <line x1="50" y1="42" x2="50" y2="50" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="44,46 56,46 50,54" fill="#1976D2"/>
+  <line x1="35" y1="35" x2="28" y2="45" stroke="#795548" stroke-width="3" stroke-linecap="round"/>
+  <line x1="65" y1="35" x2="72" y2="45" stroke="#795548" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
+
+"QUIT": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="40" r="26" fill="none" stroke="#EF5350" stroke-width="4"/>
+  <line x1="32" y1="22" x2="68" y2="58" stroke="#EF5350" stroke-width="4" stroke-linecap="round"/>
+  <text x="50" y="44" text-anchor="middle" font-size="10" fill="#E53935" font-weight="bold">QUIT</text>
+</svg>`,
+
+"READ": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="18" width="60" height="46" rx="4" fill="white" stroke="#90CAF9" stroke-width="2"/>
+  <line x1="28" y1="30" x2="72" y2="30" stroke="#1976D2" stroke-width="2"/>
+  <line x1="28" y1="38" x2="72" y2="38" stroke="#9E9E9E" stroke-width="1.5"/>
+  <line x1="28" y1="46" x2="72" y2="46" stroke="#9E9E9E" stroke-width="1.5"/>
+  <line x1="28" y1="54" x2="55" y2="54" stroke="#9E9E9E" stroke-width="1.5"/>
+  <line x1="48" y1="18" x2="48" y2="64" stroke="#90CAF9" stroke-width="1.5" stroke-dasharray="3,2"/>
+</svg>`,
+
+"RIDE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="30" cy="62" r="10" fill="#333"/>
+  <circle cx="30" cy="62" r="6" fill="#9E9E9E"/>
+  <circle cx="70" cy="62" r="10" fill="#333"/>
+  <circle cx="70" cy="62" r="6" fill="#9E9E9E"/>
+  <line x1="30" y1="52" x2="50" y2="40" stroke="#795548" stroke-width="3" stroke-linecap="round"/>
+  <line x1="50" y1="40" x2="70" y2="52" stroke="#795548" stroke-width="3" stroke-linecap="round"/>
+  <line x1="50" y1="40" x2="50" y2="25" stroke="#795548" stroke-width="2.5"/>
+  <circle cx="50" cy="20" r="8" fill="#FFCC02"/>
+  <line x1="42" y1="40" x2="30" y2="52" stroke="#795548" stroke-width="2"/>
+  <line x1="42" y1="40" x2="20" y2="40" stroke="#795548" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
+
+"RING": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50 12 Q60 14 62 28 Q64 38 70 42 L30 42 Q36 38 38 28 Q40 14 50 12 Z" fill="#FFCC02"/>
+  <rect x="40" y="42" width="20" height="8" rx="2" fill="#FFA726"/>
+  <ellipse cx="50" cy="52" rx="8" ry="4" fill="#FF8A65"/>
+  <ellipse cx="32" cy="22" rx="4" ry="8" fill="#FFA726" opacity=".7"/>
+  <ellipse cx="68" cy="22" rx="4" ry="8" fill="#FFA726" opacity=".7"/>
+  <text x="26" y="18" text-anchor="middle" font-size="10" fill="#FFA726">)))</text>
+  <text x="74" y="18" text-anchor="middle" font-size="10" fill="#FFA726">((( </text>
+</svg>`,
+
+"RUN": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="60" cy="18" r="9" fill="#FFCC02"/>
+  <line x1="60" y1="27" x2="55" y2="48" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <line x1="55" y1="48" x2="40" y2="60" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <line x1="55" y1="48" x2="70" y2="58" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <line x1="55" y1="36" x2="38" y2="30" stroke="#E53935" stroke-width="3" stroke-linecap="round"/>
+  <line x1="55" y1="36" x2="68" y2="28" stroke="#E53935" stroke-width="3" stroke-linecap="round"/>
+  <line x1="10" y1="68" x2="90" y2="68" stroke="#A5D6A7" stroke-width="2.5"/>
+  <line x1="22" y1="52" x2="46" y2="58" stroke="#9E9E9E" stroke-width="1.5" stroke-dasharray="4,3"/>
+</svg>`,
+
+"SAY": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="30" cy="35" r="14" fill="#FFCC02"/>
+  <ellipse cx="25" cy="33" rx="2.5" ry="3" fill="#333"/>
+  <ellipse cx="35" cy="33" rx="2.5" ry="3" fill="#333"/>
+  <path d="M25 40 Q30 44 35 40" fill="none" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+  <rect x="48" y="20" width="40" height="30" rx="8" fill="#CE93D8"/>
+  <rect x="50" y="45" width="14" height="8" rx="2" fill="#CE93D8"/>
+  <polygon points="50,53 64,53 57,63" fill="#CE93D8"/>
+  <circle cx="60" cy="31" r="3" fill="white"/>
+  <circle cx="70" cy="31" r="3" fill="white"/>
+  <circle cx="80" cy="31" r="3" fill="white"/>
+</svg>`,
+
+"SEE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15 40 Q50 12 85 40 Q50 68 15 40 Z" fill="#E3F2FD"/>
+  <path d="M15 40 Q50 12 85 40 Q50 68 15 40 Z" fill="none" stroke="#1976D2" stroke-width="2.5"/>
+  <circle cx="50" cy="40" r="13" fill="#1976D2"/>
+  <circle cx="50" cy="40" r="8" fill="#1565C0"/>
+  <circle cx="50" cy="40" r="4" fill="black"/>
+  <circle cx="53" cy="37" r="2" fill="white"/>
+</svg>`,
+
+"SELL": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="28" width="26" height="36" rx="4" fill="#FF8A65"/>
+  <rect x="54" y="16" width="26" height="48" rx="4" fill="#81C784"/>
+  <line x1="15" y1="64" x2="85" y2="64" stroke="#795548" stroke-width="2.5"/>
+  <text x="33" y="52" text-anchor="middle" font-size="12" font-weight="bold" fill="white">$</text>
+  <text x="67" y="52" text-anchor="middle" font-size="16" font-weight="bold" fill="white">$</text>
+  <text x="50" y="10" text-anchor="middle" font-size="8" fill="#E53935" font-weight="bold">FOR SALE</text>
+</svg>`,
+
+"SEND": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="10,20 90,40 10,60 20,40 Z" fill="#90CAF9"/>
+  <polygon points="10,20 55,40 10,60" fill="#1976D2" opacity=".8"/>
+  <line x1="20" y1="40" x2="90" y2="40" stroke="none"/>
+</svg>`,
+
+"SPEAK": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="35" cy="32" r="12" fill="#FFCC02"/>
+  <ellipse cx="30" cy="30" rx="2.5" ry="3" fill="#333"/>
+  <ellipse cx="40" cy="30" rx="2.5" ry="3" fill="#333"/>
+  <path d="M30 37 Q35 41 40 37" fill="none" stroke="#333" stroke-width="1.5"/>
+  <path d="M47 22 Q60 18 65 28 Q60 38 47 34 Z" fill="#CE93D8"/>
+  <path d="M72 26 Q78 28 76 34 Q74 40 70 36" fill="none" stroke="#CE93D8" stroke-width="2.5"/>
+  <path d="M76 22 Q84 24 82 32 Q80 40 75 36" fill="none" stroke="#CE93D8" stroke-width="2" opacity=".6"/>
+</svg>`,
+
+"STAND": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="16" r="9" fill="#FFCC02"/>
+  <line x1="50" y1="25" x2="50" y2="52" stroke="#1976D2" stroke-width="4" stroke-linecap="round"/>
+  <line x1="50" y1="52" x2="36" y2="68" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <line x1="50" y1="52" x2="64" y2="68" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <line x1="50" y1="36" x2="34" y2="44" stroke="#E53935" stroke-width="3" stroke-linecap="round"/>
+  <line x1="50" y1="36" x2="66" y2="44" stroke="#E53935" stroke-width="3" stroke-linecap="round"/>
+  <line x1="20" y1="68" x2="80" y2="68" stroke="#A5D6A7" stroke-width="2.5"/>
+</svg>`,
+
+"TAKE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="15" y="35" width="38" height="28" rx="5" fill="#FF8A65"/>
+  <circle cx="65" cy="30" r="9" fill="#FFCC02"/>
+  <line x1="65" y1="39" x2="65" y2="60" stroke="#1976D2" stroke-width="3"/>
+  <line x1="65" y1="48" x2="53" y2="55" stroke="#1976D2" stroke-width="3" stroke-linecap="round"/>
+  <line x1="53" y1="48" x2="53" y2="35" stroke="#9E9E9E" stroke-width="2" stroke-dasharray="3,2"/>
+  <polygon points="48,44 58,44 53,36" fill="#E53935"/>
+</svg>`,
+
+"TEACH": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="15" y="15" width="55" height="38" rx="4" fill="#81C784"/>
+  <rect x="18" y="18" width="49" height="32" rx="2" fill="white"/>
+  <line x1="22" y1="27" x2="62" y2="27" stroke="#1976D2" stroke-width="2"/>
+  <text x="28" y="38" font-size="8" fill="#333">A + B = C</text>
+  <line x1="22" y1="43" x2="55" y2="43" stroke="#9E9E9E" stroke-width="1.5"/>
+  <line x1="18" y1="53" x2="20" y2="53" stroke="#795548" stroke-width="3" stroke-linecap="round"/>
+  <line x1="18" y1="53" x2="28" y2="45" stroke="#795548" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="72" cy="22" r="7" fill="#FFCC02"/>
+  <line x1="72" y1="29" x2="72" y2="45" stroke="#795548" stroke-width="2.5"/>
+  <line x1="66" y1="36" x2="72" y2="41" stroke="#795548" stroke-width="2.5"/>
+</svg>`,
+
+"TEAR": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="18" y="20" width="28" height="44" rx="3" fill="#90CAF9"/>
+  <rect x="54" y="20" width="28" height="44" rx="3" fill="#90CAF9"/>
+  <path d="M46 20 L54 20 L54 64 L46 64" fill="none" stroke="#E53935" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5,3"/>
+  <line x1="46" y1="30" x2="54" y2="35" stroke="#EF5350" stroke-width="1.5"/>
+  <line x1="46" y1="42" x2="54" y2="47" stroke="#EF5350" stroke-width="1.5"/>
+  <line x1="46" y1="54" x2="54" y2="59" stroke="#EF5350" stroke-width="1.5"/>
+</svg>`,
+
+"TELL": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="30" cy="32" r="12" fill="#FFCC02"/>
+  <ellipse cx="25" cy="30" rx="2" ry="2.5" fill="#333"/>
+  <ellipse cx="35" cy="30" rx="2" ry="2.5" fill="#333"/>
+  <path d="M25 37 Q30 41 35 37" fill="none" stroke="#333" stroke-width="1.5"/>
+  <path d="M48 18 L85 18 L85 48 L48 48 L48 18 Z" rx="5" fill="#CE93D8"/>
+  <rect x="48" y="18" width="37" height="30" rx="5" fill="#CE93D8"/>
+  <rect x="56" y="44" width="10" height="8" rx="2" fill="#CE93D8"/>
+  <polygon points="56,52 66,52 61,62" fill="#CE93D8"/>
+  <line x1="54" y1="28" x2="79" y2="28" stroke="white" stroke-width="2"/>
+  <line x1="54" y1="35" x2="79" y2="35" stroke="white" stroke-width="2"/>
+  <line x1="54" y1="42" x2="72" y2="42" stroke="white" stroke-width="2"/>
+</svg>`,
+
+"THINK": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="42" cy="45" r="20" fill="#FFCC02"/>
+  <ellipse cx="36" cy="42" rx="3" ry="3.5" fill="#333"/>
+  <ellipse cx="48" cy="42" rx="3" ry="3.5" fill="#333"/>
+  <path d="M36 50 Q42 55 48 50" fill="none" stroke="#333" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="60" cy="28" r="8" fill="#CE93D8" opacity=".8"/>
+  <circle cx="70" cy="20" r="6" fill="#CE93D8" opacity=".6"/>
+  <circle cx="78" cy="13" r="4" fill="#CE93D8" opacity=".4"/>
+</svg>`,
+
+"THROW": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="25" cy="35" r="10" fill="#FFCC02"/>
+  <line x1="25" y1="45" x2="25" y2="65" stroke="#1976D2" stroke-width="3"/>
+  <line x1="25" y1="52" x2="15" y2="62" stroke="#1976D2" stroke-width="3"/>
+  <line x1="25" y1="52" x2="35" y2="62" stroke="#1976D2" stroke-width="3"/>
+  <line x1="25" y1="38" x2="40" y2="28" stroke="#795548" stroke-width="3" stroke-linecap="round"/>
+  <path d="M40 28 Q60 15 80 25" fill="none" stroke="#E53935" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="80" cy="25" r="7" fill="#EF5350"/>
+  <circle cx="78" cy="23" r="2" fill="white"/>
+</svg>`,
+
+"UNDERSTAND": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="38" r="20" fill="#CE93D8"/>
+  <ellipse cx="43" cy="35" rx="3" ry="3.5" fill="#333"/>
+  <ellipse cx="57" cy="35" rx="3" ry="3.5" fill="#333"/>
+  <path d="M43 43 Q50 48 57 43" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="50" cy="14" r="5" fill="#FFA726"/>
+  <line x1="50" y1="19" x2="50" y2="18" stroke="#FFA726" stroke-width="1.5"/>
+  <text x="50" y="18" text-anchor="middle" font-size="10" fill="#FFA726">💡</text>
+  <path d="M30 28 Q25 18 32 14" fill="none" stroke="#FFA726" stroke-width="2" stroke-linecap="round"/>
+  <path d="M70 28 Q75 18 68 14" fill="none" stroke="#FFA726" stroke-width="2" stroke-linecap="round"/>
+</svg>`,
+
+"WAKE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="15" y="45" width="70" height="22" rx="6" fill="#90CAF9"/>
+  <rect x="12" y="40" width="18" height="8" rx="4" fill="#FFCCBC"/>
+  <ellipse cx="50" cy="42" rx="26" ry="10" fill="#FFCC80"/>
+  <circle cx="76" cy="38" r="10" fill="#FFCC02"/>
+  <ellipse cx="70" cy="36" rx="2.5" ry="3" fill="#333"/>
+  <ellipse cx="80" cy="36" rx="2.5" ry="3" fill="#333"/>
+  <path d="M70 43 Q76 47 82 43" fill="none" stroke="#333" stroke-width="1.5"/>
+  <line x1="76" y1="26" x2="76" y2="20" stroke="#FDD835" stroke-width="2"/>
+  <line x1="83" y1="29" x2="87" y2="24" stroke="#FDD835" stroke-width="2"/>
+  <line x1="69" y1="29" x2="65" y2="24" stroke="#FDD835" stroke-width="2"/>
+</svg>`,
+
+"WEAR": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <path d="M35 20 L20 35 L30 40 L30 68 L70 68 L70 40 L80 35 L65 20 Q50 30 35 20 Z" fill="#42A5F5"/>
+  <path d="M50 20 Q58 28 65 20" fill="none" stroke="#1565C0" stroke-width="2"/>
+  <path d="M50 20 Q42 28 35 20" fill="none" stroke="#1565C0" stroke-width="2"/>
+  <line x1="38" y1="35" x2="62" y2="35" stroke="#1565C0" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="30" y1="50" x2="70" y2="50" stroke="#1565C0" stroke-width="1"/>
+</svg>`,
+
+"WIN": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="50,8 58,30 82,30 64,44 70,66 50,52 30,66 36,44 18,30 42,30" fill="#FFCC02" stroke="#FFA726" stroke-width="1.5"/>
+</svg>`,
+
+"WIND": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15 30 Q35 15 55 30 Q65 38 75 28 Q82 20 82 12" fill="none" stroke="#90CAF9" stroke-width="3" stroke-linecap="round"/>
+  <path d="M15 45 Q40 30 60 45 Q72 53 80 45" fill="none" stroke="#4FC3F7" stroke-width="3" stroke-linecap="round"/>
+  <path d="M15 60 Q45 48 65 60 Q74 65 82 58" fill="none" stroke="#B3E5FC" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="82" cy="12" r="5" fill="#CE93D8"/>
+  <circle cx="80" cy="45" r="4" fill="#A5D6A7"/>
+</svg>`,
+
+"WRITE": `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="15" width="55" height="50" rx="4" fill="white" stroke="#9E9E9E" stroke-width="2"/>
+  <line x1="28" y1="28" x2="67" y2="28" stroke="#9E9E9E" stroke-width="1.5"/>
+  <line x1="28" y1="36" x2="67" y2="36" stroke="#9E9E9E" stroke-width="1.5"/>
+  <line x1="28" y1="44" x2="67" y2="44" stroke="#9E9E9E" stroke-width="1.5"/>
+  <line x1="28" y1="52" x2="50" y2="52" stroke="#9E9E9E" stroke-width="1.5"/>
+  <line x1="62" y1="55" x2="85" y2="32" stroke="#1565C0" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="62,47 68,55 60,58" fill="#1565C0"/>
+  <rect x="80" y="28" width="5" height="14" rx="2" fill="#FFA726" transform="rotate(-45,82,35)"/>
+</svg>`,
+  };
+  return svgs[verb] || `<svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+    <rect x="15" y="15" width="70" height="50" rx="8" fill="#E0E0E0"/>
+    <text x="50" y="45" text-anchor="middle" font-size="11" fill="#666">${verb}</text>
+  </svg>`;
+}
+
+// ===== STATE =====
+let showMeanings = true;
+let showConj = false;
+let showExamples = true;
+let currentTheme = 'classic';
+let currentBoard = 0;
+let boardMarked = Array.from({length:25}, () => new Set());
+let wonBoards = new Set();
+let drawnVerbs = [];
+let callerPool = [];
+
+// ===== WELCOME =====
+// Theme picker
+document.querySelectorAll('.tb').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tb').forEach(b => b.classList.remove('on'));
+    this.classList.add('on');
+    currentTheme = this.dataset.theme;
+    document.body.className = 'theme-' + currentTheme;
+  });
+});
+
+// iOS-safe start button: use both click and touchend
+function startGame() {
+  showMeanings = document.getElementById('opt-meanings').checked;
+  showConj = document.getElementById('opt-conj').checked;
+  showExamples = document.getElementById('opt-examples').checked;
+
+  document.getElementById('ws').style.display = 'none';
+  document.getElementById('app').classList.add('on');
+
+  buildBoards();
+  buildCards();
+  buildVerbList();
+  buildStats();
+  showBoardNum(0);
+  // Offline: unlock all cells and sentences immediately
+  document.querySelectorAll('.vc.locked').forEach(c=>c.classList.remove('locked'));
+  document.querySelectorAll('.sent-panel.locked-panel').forEach(p=>{p.classList.remove('locked-panel');const m=p.querySelector('.sent-lock-msg');if(m)m.style.display='none';});
+}
+
+const startBtn = document.getElementById('btn-start');
+startBtn.addEventListener('click', startGame);
+startBtn.addEventListener('touchend', function(e) {
+  e.preventDefault();
+  startGame();
+});
+
+// ===== SECTION NAV =====
+function showSec(id) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+  document.getElementById('sec-' + id).classList.add('on');
+  event.target.classList.add('on');
+}
+
+// ===== BUILD BOARDS =====
+function verbData(v) { return VERBS.find(x => x[0] === v); }
+
+function buildBoards() {
+  const pills = document.getElementById('board-pills');
+  const wrap = document.getElementById('board-wrap');
+  pills.innerHTML = '';
+  wrap.innerHTML = '';
+
+  BOARDS.forEach((board, idx) => {
+    // Pill
+    const pill = document.createElement('button');
+    pill.className = 'bp' + (idx === 0 ? ' on' : '');
+    pill.textContent = String(idx+1).padStart(2,'0');
+    pill.addEventListener('click', () => showBoardNum(idx));
+    pill.addEventListener('touchend', (e) => { e.preventDefault(); showBoardNum(idx); });
+    pill.id = 'pill-' + idx;
+    pills.appendChild(pill);
+
+    // Board card (hidden except current)
+    const bc = document.createElement('div');
+    bc.className = 'bcard';
+    bc.id = 'board-' + idx;
+    bc.style.display = idx === 0 ? 'block' : 'none';
+
+    let cellsHTML = board.map(verb => {
+      const vd = verbData(verb);
+      return `<div class="vc locked" id="cell-${idx}-${verb}" onclick="openConjModal(${idx},'${verb}')">
+        <div class="vname">${verb}</div>
+        <div class="vimg">${svgFor(verb)}</div>
+        ${showMeanings ? `<div class="vmean">${vd[3]}</div>` : ''}
+        ${showConj ? `<div class="vconj"><div class="cbox"><span class="clbl">Past</span><span class="cwrt"></span></div><div class="cbox"><span class="clbl">Part.</span><span class="cwrt"></span></div></div>` : ''}
+      </div>`;
+    }).join('');
+
+    bc.innerHTML = `
+      <div class="bhdr">🎲 IRREGULAR VERBS BINGO</div>
+      <div class="bgrid">${cellsHTML}</div>
+      <div class="binfo">
+        <span class="bst">Board <strong>${idx+1}</strong></span>
+        <span class="bst" id="marked-count-${idx}">Marked: <strong>0 / 16</strong></span>
+        <button class="rbtn" onclick="resetBoard(${idx})">↺ Reset</button>
+      </div>
+      <div class="sent-panel">
+        <div class="sp-title">&#9999; Write example sentences &#8212; AI checks them!</div>
+        <div class="sp-cols">
+          <div>
+            <div class="sp-col-hdr">PAST SIMPLE</div>
+            ${[0,1,2,3].map(li => `
+              <div class="sp-entry">
+                <div class="sp-inp-row">
+                  <input class="sp-inp" id="sps-${idx}-${li}" placeholder="e.g. She went home." autocorrect="off" spellcheck="false">
+                  <button class="sp-cbtn" data-b="${idx}" data-l="${li}" data-t="past" onclick="checkSent(${idx},${li},'past')">Check</button>
+                </div>
+                <div class="sp-fb" id="spsfb-${idx}-${li}"></div>
+              </div>`).join('')}
+          </div>
+          <div>
+            <div class="sp-col-hdr">PAST PARTICIPLE</div>
+            ${[0,1,2,3].map(li => `
+              <div class="sp-entry">
+                <div class="sp-inp-row">
+                  <input class="sp-inp" id="spp-${idx}-${li}" placeholder="e.g. I have gone." autocorrect="off" spellcheck="false">
+                  <button class="sp-cbtn" data-b="${idx}" data-l="${li}" data-t="pp" onclick="checkSent(${idx},${li},'pp')">Check</button>
+                </div>
+                <div class="sp-fb" id="sppfb-${idx}-${li}"></div>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+
+    wrap.appendChild(bc);
+  });
+}
+
+function showBoardNum(idx) {
+  // Players can only view their assigned board
+  if (inRoom && myRole === 'player' && idx !== myBoardIdx) return;
+  document.querySelectorAll('.bcard').forEach((el, i) => el.style.display = i === idx ? 'block' : 'none');
+  document.querySelectorAll('.bp').forEach((el, i) => el.classList.toggle('on', i === idx));
+  currentBoard = idx;
+}
+
+// ===== CONJUGATION MODAL =====
+let modalBoard=-1, modalVerb='', modalTries=0;
+const MAX_TRIES=3;
+
+function openConjModal(boardIdx, verb) {
+  // If cell is locked, show helpful message
+  const cellCheck = document.getElementById('cell-'+boardIdx+'-'+verb);
+  if (cellCheck && cellCheck.classList.contains('locked')) {
+    // Show brief toast
+    const toast = document.createElement('div');
+    toast.textContent = '🔒 Wait for the Caller to draw this verb!';
+    toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1a472a;color:#56d364;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:700;z-index:999;border:1px solid #238636;white-space:nowrap';
+    document.body.appendChild(toast);
+    setTimeout(()=>toast.remove(), 2500);
+    return;
+  }
+  // Tap again on already-marked = unmark
+  if (boardMarked[boardIdx].has(verb)) {
+    const cell = document.getElementById('cell-'+boardIdx+'-'+verb);
+    boardMarked[boardIdx].delete(verb);
+    cell.classList.remove('mk');
+    document.getElementById('marked-count-'+boardIdx).innerHTML='Marked: <strong>'+boardMarked[boardIdx].size+' / 16</strong>';
+    return;
+  }
+  modalBoard=boardIdx; modalVerb=verb; modalTries=0;
+  const vd=verbData(verb);
+  document.getElementById('cm-verb').textContent=verb;
+  document.getElementById('cm-meaning').textContent=showMeanings?vd[3]:'';
+  document.getElementById('cm-svg').innerHTML=svgFor(verb);
+  ['cm-past','cm-pp'].forEach(id=>{ document.getElementById(id).value=''; document.getElementById(id).className='cm-inp'; });
+  ['cm-past-hint','cm-pp-hint'].forEach(id=>{ document.getElementById(id).textContent=''; document.getElementById(id).className='cm-hint'; });
+  document.getElementById('cm-submit').disabled=false;
+  document.getElementById('cm-submit').textContent='\u2713 Check';
+  updateTriesDisplay();
+  document.getElementById('conj-modal').style.display='flex';
+  setTimeout(()=>document.getElementById('cm-past').focus(),120);
+  startConjTimer();
+}
+
+let conjTimerInterval = null;
+function startConjTimer(){
+  clearInterval(conjTimerInterval);
+  let secs = 6;
+  const fill = document.getElementById('cm-timer-fill');
+  const txt  = document.getElementById('cm-timer-txt');
+  fill.style.transition = 'none';
+  fill.style.width = '100%';
+  txt.textContent = '\u23F1 ' + secs + ' seconds to answer';
+  txt.className = 'cm-timer-txt';
+  // small delay so transition kicks in
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    fill.style.transition = 'width 6s linear';
+    fill.style.width = '0%';
+  }));
+  conjTimerInterval = setInterval(()=>{
+    secs--;
+    if(secs > 0){
+      txt.textContent = '\u23F1 ' + secs + ' second' + (secs!==1?'s':'') + ' remaining';
+      if(secs <= 2) txt.className = 'cm-timer-txt urgent';
+    } else {
+      clearInterval(conjTimerInterval);
+      txt.textContent = '\u23F0 Time\'s up!';
+      txt.className = 'cm-timer-txt urgent';
+      // Auto-submit to reveal answer
+      setTimeout(()=>{ if(document.getElementById('conj-modal').style.display==='flex') submitConjugation(); }, 400);
+    }
+  }, 1000);
+}
+
+function updateTriesDisplay(){
+  const left=MAX_TRIES-modalTries;
+  document.getElementById('cm-tries').textContent=left>0?'Attempts remaining: '+left+' / '+MAX_TRIES:'No attempts left — skip or close';
+}
+
+function norm(s){ return s.trim().toLowerCase().replace(/[^a-z\/]/g,''); }
+
+function checkAnswer(inp, correct){
+  const n=norm(inp);
+  return correct.split('/').some(v=>norm(v)===n);
+}
+
+function submitConjugation(){
+  const vd=verbData(modalVerb);
+  const pv=document.getElementById('cm-past').value;
+  const ppv=document.getElementById('cm-pp').value;
+  const pOk=checkAnswer(pv,vd[1]);
+  const ppOk=checkAnswer(ppv,vd[2]);
+
+  const pi=document.getElementById('cm-past'); const pph=document.getElementById('cm-past-hint');
+  const ppi=document.getElementById('cm-pp');  const ppph=document.getElementById('cm-pp-hint');
+  pi.className='cm-inp '+(pOk?'ok':'err');
+  ppi.className='cm-inp '+(ppOk?'ok':'err');
+  pph.className='cm-hint '+(pOk?'ok':'err');
+  ppph.className='cm-hint '+(ppOk?'ok':'err');
+  pph.textContent=pOk?'\u2713 Correct!':'\u2717 Wrong';
+  ppph.textContent=ppOk?'\u2713 Correct!':'\u2717 Wrong';
+
+  if(pOk&&ppOk){
+    document.getElementById('cm-submit').textContent='\uD83C\uDF89 Correct!';
+    document.getElementById('cm-submit').disabled=true;
+    setTimeout(()=>{ closeConjModal(); markCell(modalBoard,modalVerb); },700);
+  } else {
+    modalTries++;
+    updateTriesDisplay();
+    if(modalTries>=MAX_TRIES){
+      if(!pOk)  pph.textContent='\u2717 Answer: '+vd[1];
+      if(!ppOk) ppph.textContent='\u2717 Answer: '+vd[2];
+      document.getElementById('cm-submit').disabled=true;
+      document.getElementById('cm-submit').textContent='Max tries reached';
+    }
+  }
+}
+
+function skipConjugation(){ closeConjModal(); }
+function closeConjModal(){
+  document.getElementById('conj-modal').style.display='none';
+  clearInterval(conjTimerInterval);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  ['cm-past','cm-pp'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.addEventListener('keydown',e=>{ if(e.key==='Enter') submitConjugation(); });
+  });
+  ['cm-past','cm-pp'].forEach(id=>{
+    document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') submitConjugation(); });
+  });
+});
+
+function markCell(boardIdx,verb){
+  const cell=document.getElementById('cell-'+boardIdx+'-'+verb);
+  if(!cell) return;
+  boardMarked[boardIdx].add(verb);
+  cell.classList.add('mk');
+  document.getElementById('marked-count-'+boardIdx).innerHTML='Marked: <strong>'+boardMarked[boardIdx].size+' / 16</strong>';
+  if(boardMarked[boardIdx].size===16&&!wonBoards.has(boardIdx)){
+    wonBoards.add(boardIdx);
+    document.getElementById('pill-'+boardIdx).classList.add('won');
+    document.getElementById('bingo-msg').textContent='Board '+(boardIdx+1)+' completed all 16 verbs! \uD83C\uDF89';
+    document.getElementById('bingo-ov').classList.add('on');
+    const sp=document.getElementById('sent-panel-'+boardIdx);
+    if(sp){sp.classList.remove('locked-panel');const m=sp.querySelector('.sent-lock-msg');if(m)m.style.display='none';}
+  }
+  // Sync to Firebase if player in room
+  if(inRoom && myRole==='player'){
+    fbUpdate('/rooms/'+roomCode+'/players/'+sanitizeKey(myName),{
+      markedCount:boardMarked[boardIdx].size,
+      won:boardMarked[boardIdx].size===16
+    }).catch(()=>{});
+  }
+}
+
+// ===== SENTENCE CHECKER (AI) =====
+async function checkSent(boardIdx,lineIdx,tense){
+  const inputId = tense==='past'?'sps-'+boardIdx+'-'+lineIdx:'spp-'+boardIdx+'-'+lineIdx;
+  const fbId    = tense==='past'?'spsfb-'+boardIdx+'-'+lineIdx:'sppfb-'+boardIdx+'-'+lineIdx;
+  const sentence= document.getElementById(inputId).value.trim();
+  const fb      = document.getElementById(fbId);
+  const btn     = document.querySelector('[onclick="checkSent('+boardIdx+','+lineIdx+',\''+tense+'\')"]');
+
+  if(!sentence){ fb.textContent='Please write a sentence first.'; fb.className='sp-fb err'; return; }
+  const tenseLabel = tense==='past'?'Past Simple':'Past Participle';
+  fb.textContent='\u23F3 Checking with AI...'; fb.className='sp-fb loading';
+  if(btn) btn.disabled=true;
+
+  const prompt=`You are a grammar checker for ESL students learning irregular verbs.
+The student wrote this sentence as an example of the ${tenseLabel} tense:
+"${sentence}"
+Check: (1) Is an irregular verb correctly used in ${tenseLabel}? (2) Is the sentence grammatically correct?
+Reply ONLY with a raw JSON object, no markdown, no backticks:
+{"ok":true,"feedback":"Short feedback max 12 words"}`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:120,messages:[{role:'user',content:prompt}]})
+    });
+    const data=await res.json();
+    const text=(data.content&&data.content[0]&&data.content[0].text)||'{}';
+    const result=JSON.parse(text.replace(/```[a-z]*|```/g,'').trim());
+    fb.textContent=(result.ok?'\u2713 ':'\u2717 ')+(result.feedback||'');
+    fb.className='sp-fb '+(result.ok?'ok':'err');
+  }catch(e){
+    fb.textContent='\u26A0 Could not connect — try again.';
+    fb.className='sp-fb err';
+  }
+  if(btn) btn.disabled=false;
+}
+
+// ===== CALLER =====
+// ===== CALLER =====
+function resetCaller() {
+  drawnVerbs = [];
+  callerPool = VERBS.map(v => v[0]);
+  document.getElementById('cd-verb').textContent = '—';
+  document.getElementById('cd-img').innerHTML = '';
+  document.getElementById('cd-meaning').textContent = '';
+  document.getElementById('cd-past').textContent = '—';
+  document.getElementById('cd-pp').textContent = '—';
+  document.getElementById('cd-ex').innerHTML = 'Hit <strong>Draw Verb</strong> to start!';
+  document.getElementById('drawn-list').innerHTML = '';
+  document.getElementById('drawn-count').textContent = '0 / 80';
+  document.getElementById('caller-count').textContent = '0 / 80 drawn';
+  document.getElementById('cdhdr') && (document.querySelector('.cdhdr').textContent = 'Draw a verb to begin');
+  document.getElementById('btn-draw').disabled = false;
+  updateStats();
+}
+
+function drawVerb() {
+  if (callerPool.length === 0) { resetCaller(); return; }
+  const idx = Math.floor(Math.random() * callerPool.length);
+  const verb = callerPool.splice(idx, 1)[0];
+  drawnVerbs.push(verb);
+  const vd = verbData(verb);
+
+  document.querySelector('.cdhdr').textContent = `Verb ${drawnVerbs.length} of 80`;
+  document.getElementById('cd-verb').textContent = verb;
+  document.getElementById('cd-img').innerHTML = svgFor(verb);
+  document.getElementById('cd-meaning').textContent = showMeanings ? vd[3] : '';
+  document.getElementById('cd-past').textContent = vd[1];
+  document.getElementById('cd-pp').textContent = vd[2];
+
+  const ex = EXAMPLES[verb] || '';
+  document.getElementById('cd-ex').innerHTML = showExamples ? ex : '';
+
+  // Add chip
+  const chip = document.createElement('span');
+  chip.className = 'dchip';
+  chip.textContent = verb;
+  document.getElementById('drawn-list').prepend(chip);
+
+  const count = drawnVerbs.length;
+  document.getElementById('drawn-count').textContent = `${count} / 80`;
+  document.getElementById('caller-count').textContent = `${count} / 80 drawn`;
+
+  if (callerPool.length === 0) {
+    document.getElementById('btn-draw').textContent = '↺ All drawn — Reset';
+  }
+  updateStats();
+  // Flash verb + unlock cell (always)
+  showVerbFlash(verb);
+  unlockCell(verb);
+  // Sync to Firebase if caller in room
+  if (inRoom && myRole === 'caller') {
+    fbUpdate('/rooms/' + roomCode, { currentVerb: verb, status: 'playing' }).catch(() => {});
+    fbSet('/rooms/' + roomCode + '/drawnVerbs/' + verb, true).catch(() => {});
+  }
+}
+
+// ===== ALL CARDS =====
+function buildCards() {
+  const container = document.getElementById('cards-container');
+  VERBS.forEach(([verb, past, pp, meaning]) => {
+    const ex = EXAMPLES[verb] || '';
+    const d = document.createElement('div');
+    d.className = 'ccard';
+    d.innerHTML = `
+      <div class="cchdr">${verb}</div>
+      <div class="ccimg">${svgFor(verb)}</div>
+      ${showMeanings ? `<div class="ccm">${meaning}</div>` : ''}
+      <div class="ccconj">
+        <div class="ccrw"><span class="cclb">Past:</span><span class="ccv">${past}</span></div>
+        <div class="ccrw"><span class="cclb">Part.:</span><span class="ccv">${pp}</span></div>
+      </div>
+      ${showExamples ? `<div class="ccex">${ex}</div>` : ''}`;
+    container.appendChild(d);
+  });
+}
+
+// ===== VERB LIST =====
+function buildVerbList() {
+  const container = document.getElementById('verblist-container');
+  VERBS.forEach(([verb, past, pp, meaning], i) => {
+    const d = document.createElement('div');
+    d.className = 'vrow';
+    d.innerHTML = `<div class="vrn">${i+1}</div><div class="vrv">${verb}</div><div class="vrm">${meaning}</div><div class="vrp">${past}</div>`;
+    container.appendChild(d);
+  });
+}
+
+// ===== STATS =====
+function buildStats() { updateStats(); }
+
+function updateStats() {
+  // Frequency across all boards
+  const freq = {};
+  VERBS.forEach(v => freq[v[0]] = 0);
+  BOARDS.forEach(b => b.forEach(v => freq[v]++));
+
+  // Stats grid
+  const sg = document.getElementById('stats-grid');
+  sg.innerHTML = `
+    <div class="scard"><div class="snum">80</div><div class="slbl">Irregular Verbs</div></div>
+    <div class="scard"><div class="snum">25</div><div class="slbl">Player Boards</div></div>
+    <div class="scard"><div class="snum">5×</div><div class="slbl">Each verb repeats</div></div>
+    <div class="scard"><div class="snum">${drawnVerbs.length}</div><div class="slbl">Verbs drawn so far</div></div>
+    <div class="scard"><div class="snum">${wonBoards.size}</div><div class="slbl">Boards completed</div></div>
+    <div class="scard"><div class="snum">${boardMarked.reduce((a,s)=>a+s.size,0)}</div><div class="slbl">Total cells marked</div></div>`;
+
+  // Frequency list (top 20)
+  const sorted = Object.entries(freq).sort((a,b) => b[1]-a[1]).slice(0,20);
+  const max = sorted[0][1];
+  const fl = document.getElementById('freq-list');
+  fl.innerHTML = sorted.map(([verb, count]) => `
+    <div class="frow">
+      <span class="fverb">${verb}</span>
+      <div class="fbw"><div class="fb" style="width:${(count/max*100).toFixed(0)}%"></div></div>
+      <span class="fc">${count}×</span>
+    </div>`).join('');
+}
+
+// ===== INIT =====
+resetCaller();
+
+</script>
+
+
+<!-- VERB FULLSCREEN FLASH -->
+<div id="verb-flash">
+  <div id="vf-verb"></div>
+  <div id="vf-meaning"></div>
+  <div id="vf-sub"></div>
+  <button onclick="const v=document.getElementById('vf-verb').textContent;const vd=VERBS.find(x=>x[0]===v);if(vd)speakVerb(v,vd[1],vd[2]);" style="background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);color:white;padding:8px 20px;border-radius:20px;font-size:14px;cursor:pointer;touch-action:manipulation">🔊 Repeat</button>
+  <div id="vf-bar"><div id="vf-bar-fill" style="width:100%"></div></div>
+</div>
+
+<!-- ROOM SCREEN -->
+<div id="room-screen" style="display:flex;position:fixed;inset:0;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);z-index:1000;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center;padding:24px;overflow-y:auto">
+  <div style="font-family:'Fredoka One',sans-serif;font-size:clamp(24px,6vw,48px);color:#ffd700">🎲 Irregular Verbs Bingo</div>
+  <p style="font-size:13px;color:#8b949e">Multiplayer — Real Time</p>
+  <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:18px;padding:22px 26px;max-width:420px;width:100%">
+    <div style="font-family:'Fredoka One',sans-serif;font-size:16px;color:#ffd700;margin-bottom:14px">🎙 I am the CALLER (Teacher)</div>
+    <input id="caller-name-inp" placeholder="YOUR NAME" maxlength="20" autocorrect="off" style="background:#0d1117;border:2px solid #30363d;color:#e6edf3;padding:11px 14px;border-radius:10px;font-size:15px;font-family:'Nunito',sans-serif;font-weight:700;width:100%;outline:none;margin-bottom:10px;text-align:center;letter-spacing:2px;text-transform:uppercase;box-sizing:border-box">
+    <button onclick="createRoom()" style="background:linear-gradient(135deg,#ffd700,#ffaa00);color:#1a1a2e;border:none;padding:12px 0;border-radius:12px;font-family:'Fredoka One',sans-serif;font-size:18px;cursor:pointer;width:100%;touch-action:manipulation;margin-bottom:8px">Create New Game Room</button>
+    <div id="create-err" style="color:#f85149;font-size:12px;min-height:16px"></div>
+  </div>
+  <div style="color:#8b949e;font-size:12px">— or —</div>
+  <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:18px;padding:22px 26px;max-width:420px;width:100%">
+    <div style="font-family:'Fredoka One',sans-serif;font-size:16px;color:#ffd700;margin-bottom:14px">🎮 I am a PLAYER (Student)</div>
+    <input id="player-name-inp" placeholder="YOUR NAME" maxlength="20" autocorrect="off" style="background:#0d1117;border:2px solid #30363d;color:#e6edf3;padding:11px 14px;border-radius:10px;font-size:15px;font-family:'Nunito',sans-serif;font-weight:700;width:100%;outline:none;margin-bottom:10px;text-align:center;letter-spacing:2px;text-transform:uppercase;box-sizing:border-box">
+    <input id="room-code-inp" placeholder="ROOM CODE" maxlength="6" autocorrect="off" style="background:#0d1117;border:2px solid #30363d;color:#e6edf3;padding:11px 14px;border-radius:10px;font-size:15px;font-family:'Nunito',sans-serif;font-weight:700;width:100%;outline:none;margin-bottom:10px;text-align:center;letter-spacing:2px;text-transform:uppercase;box-sizing:border-box">
+    <button onclick="joinRoom()" style="background:linear-gradient(135deg,#ffd700,#ffaa00);color:#1a1a2e;border:none;padding:12px 0;border-radius:12px;font-family:'Fredoka One',sans-serif;font-size:18px;cursor:pointer;width:100%;touch-action:manipulation;margin-bottom:8px">Join Game</button>
+    <div id="join-err" style="color:#f85149;font-size:12px;min-height:16px"></div>
+  </div>
+  <button onclick="playOffline()" style="background:#21262d;color:#c9d1d9;border:1px solid #30363d;padding:12px 0;border-radius:12px;font-family:'Fredoka One',sans-serif;font-size:16px;cursor:pointer;width:100%;max-width:420px;touch-action:manipulation">&#9654; Play Offline (no room)</button>
+</div>
+
+<!-- LIVE BAR -->
+<div id="live-bar" style="display:none;background:#161b22;border-bottom:1px solid #30363d;padding:6px 14px;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px">
+  <span id="live-dot" style="width:8px;height:8px;border-radius:50%;background:#56d364;display:inline-block"></span>
+  Room: <strong id="live-room-code" style="color:#ffd700"></strong>
+  <span id="live-role-label" style="color:#8b949e"></span>
+  <span id="live-verb-announce" style="display:none;background:#1a472a;border:1px solid #238636;border-radius:8px;padding:4px 10px;color:#56d364;font-weight:800"></span>
+  <span id="live-players-count" style="color:#8b949e;margin-left:auto"></span>
+</div>
+
+
+<!-- CONJUGATION MODAL -->
+<div id="conj-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:800;align-items:center;justify-content:center;padding:16px">
+  <div class="cm-box">
+    <button class="cm-close" onclick="closeConjModal()">&#x2715;</button>
+    <div class="cm-svg" id="cm-svg"></div>
+    <div class="cm-verb" id="cm-verb"></div>
+    <div class="cm-meaning" id="cm-meaning"></div>
+    <div class="cm-tries" id="cm-tries"></div>
+    <div class="cm-timer-txt" id="cm-timer-txt">⏱ 6 seconds to answer</div>
+    <div class="cm-timer-bar"><div class="cm-timer-fill" id="cm-timer-fill" style="width:100%"></div></div>
+    <div class="cm-row">
+      <span class="cm-lbl">Past Simple</span>
+      <input class="cm-inp" id="cm-past" placeholder="Type the past simple..." autocomplete="off" autocorrect="off" spellcheck="false">
+      <span class="cm-hint" id="cm-past-hint"></span>
+    </div>
+    <div class="cm-row">
+      <span class="cm-lbl">Past Participle</span>
+      <input class="cm-inp" id="cm-pp" placeholder="Type the past participle..." autocomplete="off" autocorrect="off" spellcheck="false">
+      <span class="cm-hint" id="cm-pp-hint"></span>
+    </div>
+    <button class="cm-btn" id="cm-submit" onclick="submitConjugation()">&#10003; Check</button>
+    <button class="cm-skip" onclick="skipConjugation()">Skip (don't mark)</button>
+  </div>
+</div>
+
+
+// ── CONFIRM BEFORE LEAVING ──
+window.addEventListener('beforeunload', function(e) {
+  if (document.getElementById('app').classList.contains('on')) {
+    e.preventDefault();
+    e.returnValue = 'Are you sure you want to leave the game?';
+    return e.returnValue;
+  }
+});
+
+// Handle Android back button
+window.addEventListener('popstate', function(e) {
+  if (document.getElementById('app').classList.contains('on')) {
+    const confirmed = confirm('Are you sure you want to leave the game?');
+    if (!confirmed) {
+      history.pushState(null, '', window.location.href);
+    }
+  }
+});
+
+// Push a state so popstate fires on back button
+window.addEventListener('load', function() {
+  history.pushState(null, '', window.location.href);
+});
+
+</body>
+</html>
