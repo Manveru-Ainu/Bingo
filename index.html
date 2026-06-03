@@ -312,6 +312,18 @@ html,body{width:100%;min-height:100%;font-family:"Nunito",sans-serif;background:
 .sb-won{color:#56d364;font-weight:800}
 #scoreboard.hidden{display:none}
 
+
+/* BINGO CLAIM */
+.bingo-claim{display:none;margin-top:12px;text-align:center}
+.bingo-claim.ready{display:block}
+.bingo-claim-msg{font-size:12px;color:#56d364;font-weight:700;margin-bottom:10px;padding:8px;background:rgba(35,134,54,.15);border:1px solid #238636;border-radius:8px}
+.bingo-claim-btn{background:linear-gradient(135deg,#ffd700,#ffaa00);color:#1a1a2e;border:none;padding:14px 0;border-radius:14px;font-family:"Fredoka One",sans-serif;font-size:22px;cursor:pointer;width:100%;touch-action:manipulation;animation:glow 1.5s infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 10px rgba(255,215,0,.4)}50%{box-shadow:0 0 30px rgba(255,215,0,.9)}}
+.sentences-pending{text-align:center;font-size:11px;color:#ffa726;font-weight:700;padding:8px;background:rgba(255,167,38,.1);border:1px solid rgba(255,167,38,.3);border-radius:8px;margin-bottom:10px;display:none}
+.sentences-pending.show{display:block}
+.sp-fb.ok{color:#56d364}
+.sp-fb.err{color:#f85149}
+
 </style>
 
 </head>
@@ -1765,12 +1777,18 @@ function markCell(boardIdx,verb){
   cell.classList.add('mk');
   document.getElementById('marked-count-'+boardIdx).innerHTML='Marked: <strong>'+boardMarked[boardIdx].size+' / 16</strong>';
   if(boardMarked[boardIdx].size===16&&!wonBoards.has(boardIdx)){
-    wonBoards.add(boardIdx);
-    document.getElementById('pill-'+boardIdx).classList.add('won');
-    document.getElementById('bingo-msg').textContent='Board '+(boardIdx+1)+' completed all 16 verbs! \uD83C\uDF89';
-    document.getElementById('bingo-ov').classList.add('on');
+    // Unlock sentences — player must complete them before claiming BINGO
     const sp=document.getElementById('sent-panel-'+boardIdx);
-    if(sp){sp.classList.remove('locked-panel');const m=sp.querySelector('.sent-lock-msg');if(m)m.style.display='none';}
+    if(sp){
+      sp.classList.remove('locked-panel');
+      const m=sp.querySelector('.sent-lock-msg');
+      if(m)m.style.display='none';
+    }
+    // Show "complete sentences" message
+    const pending=document.getElementById('sent-pending-'+boardIdx);
+    if(pending) pending.classList.add('show');
+    // Scroll to sentence area
+    if(sp) setTimeout(()=>sp.scrollIntoView({behavior:'smooth',block:'start'}),300);
   }
   // Sync to Firebase if player in room
   if(inRoom && myRole==='player'){
@@ -1782,6 +1800,51 @@ function markCell(boardIdx,verb){
 }
 
 // ===== SENTENCE CHECKER (AI) =====
+// Track correct sentences per board: sentOk[boardIdx][tense+lineIdx] = true/false
+const sentOk = {};
+
+function checkAllSentences(boardIdx){
+  if(!sentOk[boardIdx]) return false;
+  // Need all 8 correct: past 0-3 and pp 0-3
+  for(let i=0;i<4;i++){
+    if(!sentOk[boardIdx]['past'+i]) return false;
+    if(!sentOk[boardIdx]['pp'+i])   return false;
+  }
+  return true;
+}
+
+function onSentenceCorrect(boardIdx, lineIdx, tense){
+  if(!sentOk[boardIdx]) sentOk[boardIdx]={};
+  sentOk[boardIdx][tense+lineIdx] = true;
+  // Check if all 8 done
+  if(boardMarked[boardIdx] && boardMarked[boardIdx].size===16 && checkAllSentences(boardIdx)){
+    const pending = document.getElementById('sent-pending-'+boardIdx);
+    if(pending) pending.classList.remove('show');
+    const claim = document.getElementById('bingo-claim-'+boardIdx);
+    if(claim) claim.classList.add('ready');
+  }
+}
+
+function claimBingo(boardIdx){
+  if(!checkAllSentences(boardIdx)){
+    alert('Complete all 8 sentences correctly first!');
+    return;
+  }
+  wonBoards.add(boardIdx);
+  document.getElementById('pill-'+boardIdx).classList.add('won');
+  const claim=document.getElementById('bingo-claim-'+boardIdx);
+  if(claim) claim.innerHTML='<div class="bingo-claim-msg">🏆 BINGO claimed!</div>';
+  document.getElementById('bingo-msg').textContent='Board '+(boardIdx+1)+' — BINGO! All verbs and sentences completed! 🎉';
+  document.getElementById('bingo-ov').classList.add('on');
+  // Sync to Firebase
+  if(inRoom && myRole==='player'){
+    fbUpdate('/rooms/'+roomCode+'/players/'+sanitizeKey(myName),{
+      markedCount:16, won:true
+    }).catch(()=>{});
+  }
+  updateStats();
+}
+
 async function checkSent(boardIdx,lineIdx,tense){
   const inputId = tense==='past'?'sps-'+boardIdx+'-'+lineIdx:'spp-'+boardIdx+'-'+lineIdx;
   const fbId    = tense==='past'?'spsfb-'+boardIdx+'-'+lineIdx:'sppfb-'+boardIdx+'-'+lineIdx;
@@ -1812,6 +1875,7 @@ Reply ONLY with a raw JSON object, no markdown, no backticks:
     const result=JSON.parse(text.replace(/```[a-z]*|```/g,'').trim());
     fb.textContent=(result.ok?'\u2713 ':'\u2717 ')+(result.feedback||'');
     fb.className='sp-fb '+(result.ok?'ok':'err');
+    if(result.ok) onSentenceCorrect(boardIdx, lineIdx, tense);
   }catch(e){
     fb.textContent='\u26A0 Could not connect — try again.';
     fb.className='sp-fb err';
