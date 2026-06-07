@@ -324,6 +324,142 @@ html,body{width:100%;min-height:100%;font-family:"Nunito",sans-serif;background:
 .sp-fb.ok{color:#56d364}
 .sp-fb.err{color:#f85149}
 
+
+/* ═══ ROOM SCREEN v2 ═══════════════════════════════════════════════ */
+#room-screen{
+  display:flex; position:fixed; inset:0; z-index:1000;
+  background:linear-gradient(135deg,#0d1117 0%,#1a1a2e 50%,#0f3460 100%);
+  flex-direction:column; align-items:center; justify-content:center;
+  padding:20px; overflow-y:auto; gap:0;
+}
+
+/* Floating background particles */
+.rs-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.rs-particle{
+  position:absolute; font-size:24px; opacity:.07;
+  animation:float-up 8s infinite ease-in-out;
+  bottom:-40px;
+}
+@keyframes float-up{
+  0%{transform:translateY(0) rotate(0deg);opacity:.07}
+  50%{opacity:.12}
+  100%{transform:translateY(-110vh) rotate(360deg);opacity:0}
+}
+
+/* Logo area */
+.rs-logo-area{text-align:center;margin-bottom:28px;position:relative;z-index:1}
+.rs-dice{font-size:52px;animation:bounce 2s infinite;display:block;margin-bottom:8px}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.rs-title{
+  font-family:"Fredoka One",sans-serif;
+  font-size:clamp(28px,8vw,52px);
+  color:white; line-height:1.05; margin-bottom:6px;
+}
+.rs-title span{
+  background:linear-gradient(135deg,#ffd700,#ffaa00);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.rs-subtitle{font-size:13px;color:#8b949e;letter-spacing:.5px}
+
+/* Mode cards grid */
+.rs-modes{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px; max-width:760px; width:100%;
+  position:relative; z-index:1;
+  margin-bottom:16px;
+}
+@media(max-width:600px){.rs-modes{grid-template-columns:1fr}}
+
+.rs-mode-card{
+  background:rgba(255,255,255,.06);
+  border:2px solid rgba(255,255,255,.1);
+  border-radius:18px; padding:22px 18px;
+  cursor:pointer; text-align:center;
+  transition:transform .2s,border-color .2s,background .2s;
+  touch-action:manipulation;
+}
+.rs-mode-card:hover,.rs-mode-card:active{
+  transform:translateY(-4px);
+  background:rgba(255,255,255,.1);
+  border-color:var(--ta,#ffd700);
+}
+.rs-mode-icon{font-size:36px;margin-bottom:10px;display:block}
+.rs-mode-title{
+  font-family:"Fredoka One",sans-serif;
+  font-size:18px; color:white; margin-bottom:6px;
+}
+.rs-mode-desc{font-size:12px;color:#8b949e;line-height:1.4;margin-bottom:12px}
+.rs-mode-tag{
+  display:inline-block;
+  background:rgba(255,215,0,.15);
+  color:#ffd700; font-size:10px; font-weight:800;
+  padding:3px 10px; border-radius:12px;
+  letter-spacing:.5px;
+}
+.rs-mode-tag-green{background:rgba(56,142,60,.2);color:#56d364}
+.rs-mode-tag-blue{background:rgba(33,150,243,.2);color:#64b5f6}
+
+/* Forms */
+.rs-form{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:20px; padding:26px 28px;
+  max-width:420px; width:100%;
+  position:relative; z-index:1;
+  animation:slide-up .25s ease;
+}
+@keyframes slide-up{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.rs-form-title{
+  font-family:"Fredoka One",sans-serif;
+  font-size:20px; color:var(--ta,#ffd700);
+  margin-bottom:18px; text-align:center;
+}
+.rs-form-row{margin-bottom:14px}
+.rs-label{display:block;font-size:11px;font-weight:800;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.rs-inp{
+  background:#0d1117; border:2px solid #30363d;
+  color:#e6edf3; padding:12px 16px;
+  border-radius:10px; font-size:15px;
+  font-family:"Nunito",sans-serif; font-weight:700;
+  width:100%; outline:none;
+  transition:border-color .2s; box-sizing:border-box;
+  text-transform:uppercase; letter-spacing:1px;
+}
+.rs-inp:focus{border-color:var(--ta,#ffd700)}
+.rs-inp-code{text-align:center;font-size:22px;letter-spacing:4px}
+.rs-btn-start{
+  background:linear-gradient(135deg,#ffd700,#ffaa00);
+  color:#1a1a2e; border:none; padding:14px 0;
+  border-radius:12px; font-family:"Fredoka One",sans-serif;
+  font-size:18px; cursor:pointer; width:100%;
+  touch-action:manipulation; margin-bottom:8px;
+  transition:transform .1s;
+}
+.rs-btn-start:active{transform:scale(.97)}
+.rs-btn-green{background:linear-gradient(135deg,#43a047,#1b5e20)}
+.rs-btn-back{
+  background:transparent; border:1px solid #30363d;
+  color:#8b949e; padding:10px 0; border-radius:10px;
+  font-size:13px; cursor:pointer; width:100%;
+  touch-action:manipulation;
+}
+.rs-btn-back:hover{background:#21262d;color:#c9d1d9}
+.rs-err{color:#f85149;font-size:12px;min-height:16px;margin-top:6px;text-align:center}
+
+/* AI Speed buttons */
+.rs-speed-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rs-speed-btn{
+  background:#21262d; border:2px solid #30363d; color:#c9d1d9;
+  padding:10px 4px; border-radius:10px; font-size:12px; font-weight:700;
+  cursor:pointer; touch-action:manipulation; line-height:1.4;
+  transition:.15s;
+}
+.rs-speed-btn small{font-size:10px;color:#8b949e;display:block}
+.rs-speed-btn.active{background:rgba(255,215,0,.15);border-color:#ffd700;color:#ffd700}
+.rs-speed-btn.active small{color:#ffa000}
+
 </style>
 
 </head>
@@ -2024,24 +2160,104 @@ resetCaller();
 </div>
 
 <!-- ROOM SCREEN -->
-<div id="room-screen" style="display:flex;position:fixed;inset:0;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);z-index:1000;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center;padding:24px;overflow-y:auto">
-  <div style="font-family:'Fredoka One',sans-serif;font-size:clamp(24px,6vw,48px);color:#ffd700">🎲 Irregular Verbs Bingo</div>
-  <p style="font-size:13px;color:#8b949e">Multiplayer — Real Time</p>
-  <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:18px;padding:22px 26px;max-width:420px;width:100%">
-    <div style="font-family:'Fredoka One',sans-serif;font-size:16px;color:#ffd700;margin-bottom:14px">🎙 I am the CALLER (Teacher)</div>
-    <input id="caller-name-inp" placeholder="YOUR NAME" maxlength="20" autocorrect="off" style="background:#0d1117;border:2px solid #30363d;color:#e6edf3;padding:11px 14px;border-radius:10px;font-size:15px;font-family:'Nunito',sans-serif;font-weight:700;width:100%;outline:none;margin-bottom:10px;text-align:center;letter-spacing:2px;text-transform:uppercase;box-sizing:border-box">
-    <button onclick="createRoom()" style="background:linear-gradient(135deg,#ffd700,#ffaa00);color:#1a1a2e;border:none;padding:12px 0;border-radius:12px;font-family:'Fredoka One',sans-serif;font-size:18px;cursor:pointer;width:100%;touch-action:manipulation;margin-bottom:8px">Create New Game Room</button>
-    <div id="create-err" style="color:#f85149;font-size:12px;min-height:16px"></div>
+<div id="room-screen">
+
+  <!-- ANIMATED BACKGROUND PARTICLES -->
+  <div class="rs-bg">
+    <div class="rs-particle" style="left:8%;animation-delay:0s">🎲</div>
+    <div class="rs-particle" style="left:22%;animation-delay:1.2s">📚</div>
+    <div class="rs-particle" style="left:38%;animation-delay:0.5s">✏️</div>
+    <div class="rs-particle" style="left:55%;animation-delay:1.8s">🎯</div>
+    <div class="rs-particle" style="left:70%;animation-delay:0.9s">🎲</div>
+    <div class="rs-particle" style="left:85%;animation-delay:2.1s">⭐</div>
   </div>
-  <div style="color:#8b949e;font-size:12px">— or —</div>
-  <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:18px;padding:22px 26px;max-width:420px;width:100%">
-    <div style="font-family:'Fredoka One',sans-serif;font-size:16px;color:#ffd700;margin-bottom:14px">🎮 I am a PLAYER (Student)</div>
-    <input id="player-name-inp" placeholder="YOUR NAME" maxlength="20" autocorrect="off" style="background:#0d1117;border:2px solid #30363d;color:#e6edf3;padding:11px 14px;border-radius:10px;font-size:15px;font-family:'Nunito',sans-serif;font-weight:700;width:100%;outline:none;margin-bottom:10px;text-align:center;letter-spacing:2px;text-transform:uppercase;box-sizing:border-box">
-    <input id="room-code-inp" placeholder="ROOM CODE" maxlength="6" autocorrect="off" style="background:#0d1117;border:2px solid #30363d;color:#e6edf3;padding:11px 14px;border-radius:10px;font-size:15px;font-family:'Nunito',sans-serif;font-weight:700;width:100%;outline:none;margin-bottom:10px;text-align:center;letter-spacing:2px;text-transform:uppercase;box-sizing:border-box">
-    <button onclick="joinRoom()" style="background:linear-gradient(135deg,#ffd700,#ffaa00);color:#1a1a2e;border:none;padding:12px 0;border-radius:12px;font-family:'Fredoka One',sans-serif;font-size:18px;cursor:pointer;width:100%;touch-action:manipulation;margin-bottom:8px">Join Game</button>
-    <div id="join-err" style="color:#f85149;font-size:12px;min-height:16px"></div>
+
+  <!-- LOGO AREA -->
+  <div class="rs-logo-area">
+    <div class="rs-dice">🎲</div>
+    <h1 class="rs-title">Irregular Verbs<br><span>BINGO</span></h1>
+    <p class="rs-subtitle">80 verbs · 25 boards · Real-time multiplayer</p>
   </div>
-  <button onclick="playOffline()" style="background:#21262d;color:#c9d1d9;border:1px solid #30363d;padding:12px 0;border-radius:12px;font-family:'Fredoka One',sans-serif;font-size:16px;cursor:pointer;width:100%;max-width:420px;touch-action:manipulation">&#9654; Play Offline (no room)</button>
+
+  <!-- MODE CARDS -->
+  <div class="rs-modes" id="rs-modes">
+
+    <!-- VS AI -->
+    <div class="rs-mode-card" id="mode-ai" onclick="selectMode('ai')">
+      <div class="rs-mode-icon">🤖</div>
+      <div class="rs-mode-title">vs Computer</div>
+      <div class="rs-mode-desc">Play solo against the AI caller. The computer draws verbs automatically for you.</div>
+      <div class="rs-mode-tag">SINGLE PLAYER</div>
+    </div>
+
+    <!-- HOST -->
+    <div class="rs-mode-card" id="mode-host" onclick="selectMode('host')">
+      <div class="rs-mode-icon">🎙️</div>
+      <div class="rs-mode-title">Host a Game</div>
+      <div class="rs-mode-desc">Create a room and be the Caller. Share the code with your students.</div>
+      <div class="rs-mode-tag rs-mode-tag-green">TEACHER / CALLER</div>
+    </div>
+
+    <!-- JOIN -->
+    <div class="rs-mode-card" id="mode-join" onclick="selectMode('join')">
+      <div class="rs-mode-icon">🎮</div>
+      <div class="rs-mode-title">Join a Game</div>
+      <div class="rs-mode-desc">Enter a room code to join your teacher's game and play on your board.</div>
+      <div class="rs-mode-tag rs-mode-tag-blue">STUDENT / PLAYER</div>
+    </div>
+
+  </div>
+
+  <!-- FORMS (shown after mode selection) -->
+
+  <!-- AI FORM -->
+  <div class="rs-form" id="form-ai" style="display:none">
+    <div class="rs-form-title">🤖 Play vs Computer</div>
+    <div class="rs-form-row">
+      <label class="rs-label">Your name</label>
+      <input class="rs-inp" id="ai-name-inp" placeholder="ENTER YOUR NAME" maxlength="20" autocorrect="off">
+    </div>
+    <div class="rs-form-row">
+      <label class="rs-label">AI Speed</label>
+      <div class="rs-speed-btns">
+        <button class="rs-speed-btn active" id="speed-slow" onclick="setSpeed('slow')">🐢 Slow<br><small>8 sec</small></button>
+        <button class="rs-speed-btn" id="speed-medium" onclick="setSpeed('medium')">🐇 Normal<br><small>5 sec</small></button>
+        <button class="rs-speed-btn" id="speed-fast" onclick="setSpeed('fast')">⚡ Fast<br><small>3 sec</small></button>
+      </div>
+    </div>
+    <button class="rs-btn-start" onclick="startAIGame()">▶ Start Game</button>
+    <button class="rs-btn-back" onclick="backToModes()">← Back</button>
+    <div class="rs-err" id="ai-err"></div>
+  </div>
+
+  <!-- HOST FORM -->
+  <div class="rs-form" id="form-host" style="display:none">
+    <div class="rs-form-title">🎙️ Host a Game</div>
+    <div class="rs-form-row">
+      <label class="rs-label">Your name</label>
+      <input class="rs-inp" id="caller-name-inp" placeholder="ENTER YOUR NAME" maxlength="20" autocorrect="off">
+    </div>
+    <button class="rs-btn-start" onclick="createRoom()">🚀 Create Room</button>
+    <button class="rs-btn-back" onclick="backToModes()">← Back</button>
+    <div class="rs-err" id="create-err"></div>
+  </div>
+
+  <!-- JOIN FORM -->
+  <div class="rs-form" id="form-join" style="display:none">
+    <div class="rs-form-title">🎮 Join a Game</div>
+    <div class="rs-form-row">
+      <label class="rs-label">Your name</label>
+      <input class="rs-inp" id="player-name-inp" placeholder="ENTER YOUR NAME" maxlength="20" autocorrect="off">
+    </div>
+    <div class="rs-form-row">
+      <label class="rs-label">Room code</label>
+      <input class="rs-inp rs-inp-code" id="room-code-inp" placeholder="ROOM CODE" maxlength="6" autocorrect="off">
+    </div>
+    <button class="rs-btn-start rs-btn-green" onclick="joinRoom()">🎯 Join Game</button>
+    <button class="rs-btn-back" onclick="backToModes()">← Back</button>
+    <div class="rs-err" id="join-err"></div>
+  </div>
+
 </div>
 
 <!-- LIVE BAR -->
@@ -2104,6 +2320,100 @@ window.addEventListener('popstate', function(e) {
 window.addEventListener('load', function() {
   history.pushState(null, '', window.location.href);
 });
+
+// ═══ ROOM SCREEN NAVIGATION ══════════════════════════════════════════
+let aiSpeed = 'slow';
+const AI_INTERVALS = {slow: 8000, medium: 5000, fast: 3000};
+let aiInterval = null;
+
+function selectMode(mode) {
+  // Hide mode cards, show relevant form
+  document.getElementById('rs-modes').style.display = 'none';
+  document.getElementById('form-ai').style.display   = mode === 'ai'   ? 'block' : 'none';
+  document.getElementById('form-host').style.display = mode === 'host' ? 'block' : 'none';
+  document.getElementById('form-join').style.display = mode === 'join' ? 'block' : 'none';
+  // Focus first input
+  const forms = {ai:'ai-name-inp', host:'caller-name-inp', join:'player-name-inp'};
+  setTimeout(()=>{ const el=document.getElementById(forms[mode]); if(el) el.focus(); }, 150);
+}
+
+function backToModes() {
+  document.getElementById('rs-modes').style.display = 'grid';
+  document.getElementById('form-ai').style.display   = 'none';
+  document.getElementById('form-host').style.display = 'none';
+  document.getElementById('form-join').style.display = 'none';
+}
+
+function setSpeed(s) {
+  aiSpeed = s;
+  document.querySelectorAll('.rs-speed-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('speed-' + s).classList.add('active');
+}
+
+// ═══ AI GAME MODE ════════════════════════════════════════════════════
+function startAIGame() {
+  const name = document.getElementById('ai-name-inp').value.trim();
+  const errEl = document.getElementById('ai-err');
+  if (!name) { errEl.textContent = 'Please enter your name.'; return; }
+
+  // Setup as offline player with a specific board
+  myRole = 'player';
+  myName = name;
+  myBoardIdx = Math.floor(Math.random() * 25);
+  inRoom = false;
+
+  // Enter app
+  document.getElementById('room-screen').style.display = 'none';
+  document.getElementById('ws').style.display = 'none';
+  document.getElementById('app').classList.add('on');
+  showMeanings = true; showConj = false; showExamples = true;
+  buildBoards(); buildCards(); buildVerbList(); buildStats();
+
+  // Lock to assigned board, hide pills
+  setTimeout(() => {
+    showBoardNum(myBoardIdx);
+    document.querySelectorAll('.bp').forEach(p => p.style.display = 'none');
+    // Unlock all cells (AI mode - all verbs available)
+    document.querySelectorAll('.vc.locked').forEach(c => c.classList.remove('locked'));
+  }, 150);
+
+  // Show AI status in live bar
+  document.getElementById('live-bar').style.display = 'flex';
+  document.getElementById('live-dot').style.background = '#ffd700';
+  document.getElementById('live-room-code').textContent = '🤖 AI';
+  document.getElementById('live-role-label').textContent =
+    '🎮 ' + name + ' — Board ' + (myBoardIdx + 1) + '  |  AI draws every ' + AI_INTERVALS[aiSpeed]/1000 + 's';
+
+  // Start AI caller
+  startAICaller();
+}
+
+function startAICaller() {
+  clearInterval(aiInterval);
+  // Reset caller pool for AI
+  resetCaller();
+  const interval = AI_INTERVALS[aiSpeed];
+
+  // Show first verb after short delay
+  setTimeout(() => {
+    if (callerPool.length > 0) drawVerb();
+    // Continue drawing at interval
+    aiInterval = setInterval(() => {
+      if (callerPool.length === 0) {
+        clearInterval(aiInterval);
+        document.getElementById('live-role-label').textContent += ' — All verbs drawn!';
+        return;
+      }
+      drawVerb();
+    }, interval);
+  }, 2000);
+}
+
+// Stop AI when leaving
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) clearInterval(aiInterval);
+});
+
 </script>
 
 </body>
